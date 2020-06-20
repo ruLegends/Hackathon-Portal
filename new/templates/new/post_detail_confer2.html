@@ -1,0 +1,130 @@
+ {% extends 'new/base.html' %}
+{% load staticfiles %}
+
+    {% block content %}
+<script>
+
+$(document).ready(function () {
+
+    var dataTableLanguage = {
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать записей _MENU_ ",
+                "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка записей...",
+                "zeroRecords": "Записи отсутствуют.",
+                "emptyTable": "В таблице отсутствуют данные",
+                "paginate": {
+                    "first": "Первая",
+                    "previous": "Предыдущая",
+                    "next": "Следующая",
+                    "last": "Последняя"
+                },
+                "aria": {
+                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                    "sortDescending": ": активировать для сортировки столбца по убыванию"
+                }
+            };
+
+            $('#example').dataTable({
+                "language": dataTableLanguage,
+                "Searchable": false
+
+            });
+    });
+
+
+ $(document).ready(function () {
+
+   $(function() {
+
+    $('#tabs').tabs();
+    $('button').button();
+
+
+});
+$( function() {
+    $( "#accordion" ).accordion({
+        active: false,
+      collapsible: true
+    });
+  } );
+    });
+
+$(document).ready(function () {
+       $('#newz').click(function () {
+            alert('Вы не можете добавить материал в конференцию, т.к. необходимо зарегистрироваться на сайте или войти под своим логином и паролем!');
+            event.preventDefault();
+            return false;
+        })
+    });
+	
+var show;
+function hidetxt(type){
+ param=document.getElementById(type);
+ if(param.style.display == "none") {
+ if(show) show.style.display = "none";
+ param.style.display = "block";
+ show = param;
+ }else param.style.display = "none"
+}	
+  </script>
+        <div class="post" style="height: 610px;">
+
+            {% if conference.published_dateconf %}
+                <div style="color:#aaaaaa;" class="date">
+                    {{ conference.published_dateconf }}
+                </div>
+            {% endif %}
+       {% if conference.authorconf_id == user.pk or user.pk == 1 or user.pk == 35  %}
+         <a style="margin-bottom: 36px; color: #f16300; font-weight: bold;" href="" onclick = "return confirm('Сайт и страница находится в разработке');" class="button66" title="Редактировать комнату">Редактировать</a>
+        {% endif %}
+{#         {%  if request.user.is_authenticated %}#}
+{#                <a style="margin-bottom: 36px;" href="/material_new/{{ conference.id }}" class="button67" title="Добавить идеи и предложения"></a>#}
+{#                <a style="margin-bottom: 36px;" href="/material_new/{{ conference.id }}" class="button009" title="Стать участником комнаты"></a>#}
+{#         {% endif %}#}
+          <h1 style=" color: #0079b2;"><img  style="vertical-align: bottom;" src="/static/css/images/opn.png"> {{ conference.titleconf }}</h1>
+              <div>
+               
+            
+                <p style="color:#aaaaaa;"><label style="color: rgba(0, 112, 163, 0.61); font-weight: bold; font-size: 20px;">Организатор комнаты:</label>&nbsp;&nbsp;  {{ conference.authorconf.last_name}}  {{ conference.authorconf.first_name}}
+                    {% if conference.authorconf.patronymic != None  %}
+                   {{ conference.authorconf.patronymic}}
+                    {% endif %}
+               </p>
+                </div>
+          <label style="color:rgba(0, 112, 163, 0.61); font-weight: bold; font-size: 20px;">Описание комнаты:</label>&nbsp;
+            <p>{{ conference.textconf|linebreaksbr }}</p>
+ <p style="color:#aaaaaa;"><label style="color: rgba(0, 112, 163, 0.61); font-weight: bold; font-size: 20px;">Время проведения с:</label>&nbsp;&nbsp;   {{ conference.date_launch_s }}</p>
+<p style="color:#aaaaaa; margin-top: -18px;"><label style="margin-left: 12.7%; color: rgba(0, 112, 163, 0.61); font-weight: bold; font-size: 20px;">по:</label>&nbsp;&nbsp;   {{ conference.date_launch_po }}</p>
+ <p style="color:#aaaaaa;"><label style="color:rgba(0, 112, 163, 0.61); font-weight: bold; font-size: 20px;">Срок внесения идей и предложений:</label>&nbsp;&nbsp;   {{ conference.srok_podacha }}</p>
+
+<p style="text-align: center;color: #0079b2;font-size: 23px; text-align: center;">Список идей и предложений</p>
+  <p>
+        
+   			<a id="a" href="/opisanie_material/1/" style="font-size: 24px; color: #ece052;  margin-bottom: 62px; text-align: center;"> <img  style="width: 7%;" src="/static/css/images/logo.png">Идея №1</a>
+			</p>
+			<p>
+			<a id="a" href="/opisanie_material/1/" style="font-size: 24px; color: #ece052;  margin-bottom: 62px; text-align: center;"> <img  style="width: 7%;" src="/static/css/images/logo.png">Идея №2</a>
+			</p>
+			<p>
+			<a id="a" href="/opisanie_material/1/" style="font-size: 24px; color: #ece052;  margin-bottom: 62px; text-align: center;"> <img  style="width: 7%;" src="/static/css/images/logo.png">Идея №3</a>
+    </p>
+		<p>
+			<a id="a" href="/opisanie_material/1/" style="font-size: 24px;  color: #ece052; margin-bottom: 62px; text-align: center;"> <img  style="width: 7%;" src="/static/css/images/logo.png">Идея №4</a>
+    </p>
+	
+        </div>
+
+ <div>
+
+ 
+ 
+ 
+ </div>
+  </div>
+</div>
+    {% endblock %}

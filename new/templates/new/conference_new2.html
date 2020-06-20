@@ -1,0 +1,219 @@
+
+{% extends 'new/base.html' %}
+
+{% block content %}
+ <script>
+    function validateForm() {
+        var x = document.forms["myForm"]["id_authorconf"].value;
+        var z = document.forms["myForm"]["id_published_dateconf"].value;
+        var c = document.forms["myForm"]["id_branch_science"].value;
+        var v = document.forms["myForm"]["id_titleconf"].value;
+        var n = document.forms["myForm"]["id_textconf"].value;
+
+        var n1 = document.forms["myForm"]["id_date_launch_s"].value;
+        var n2 = document.forms["myForm"]["id_date_launch_po"].value;
+        var n3 = document.forms["myForm"]["id_srok_podacha"].value;
+        var n4 = document.forms["myForm"]["id_srok_prin_resh_itog"].value;
+{#        var n5 = document.forms["myForm"]["id_trebovania"].value;#}
+        var conf = document.forms["myForm"]["id_org"].value;
+        var k = document.forms["myForm"]["id_sostav_orgkomitet"].value;
+
+        if (x == "" & z == "" & c == "" & v == "" & n == "" & n1 == "" & n2 == "" & n3 == "" & n4 == "") {
+            alert('Необходимо заполнить поля "Организация", "Дата создания конференции", "Время проведения конференции c и по", "Срок подачи статей и докладов", "Срок принятия решений по итогам конференции",  "Отрасль науки", "Тема конференции"');
+            return false;
+        }
+       if (x == "") {
+            alert('Поле "Организатор конференции" необходимо заполнить');
+            return false;
+        }
+        if (z == "") {
+            alert('Поле "Дата начала конференции" необходимо заполнить');
+            return false;
+        }
+        if (c == "") {
+            alert('Поле "Отрасль науки" необходимо заполнить');
+            return false;
+        }
+        if (v == "") {
+            alert('Поле "Тема конференции" необходимо заполнить');
+            return false;
+        }
+{#        if (n == "") {#}
+{#            alert('Поле "Текст" необходимо заполнить');#}
+{#            return false;#}
+{#        }#}
+
+        if (n1 == "") {
+           alert('Поле "Время проведения конференции с и по" необходимо заполнить');
+           return false;
+        }
+        if (n2 == "") {
+           alert('Поле "Время проведения конференции с и по" необходимо заполнить');
+           return false;
+        }
+        if (n3 == "") {
+           alert('Поле "Срок подачи статей и докладов" необходимо заполнить');
+           return false;
+        }
+        if (n4 == "") {
+           alert('Поле "Срок принятия решений по итогам конференции" необходимо заполнить');
+           return false;
+        }
+{#        if (n == "") {#}
+{#           alert('Поле "Описание конференции и требования к публикации" необходимо заполнить');#}
+{#           return false;#}
+{#        }#}
+
+        if (conf == "") {
+            alert('Поле "Организация" необходимо заполнить');
+            return false;
+        }
+
+
+{#         if (n1 != "") {#}
+{#            if (new Date(n1) == 'Invalid Date') {#}
+{#                alert('Поле "Время проведения конференции с" содержит некорректную дата');#}
+{#                return false;#}
+{#            }#}
+{#        }#}
+{#         if (n2 != "") {#}
+{#             if (new Date(n2) == 'Invalid Date') {#}
+{#                 alert('Поле "Время проведения конференции по" содержит некорректную дата');#}
+{#                 return false;#}
+{#             }#}
+{#         }#}
+{#        if (n3 != "") {#}
+{#            if (new Date(n3) == 'Invalid Date') {#}
+{#                alert('Поле "Срок подачи статей и докладов" содержит некорректную дата');#}
+{#                return false;#}
+{#            }#}
+{#        }#}
+{#        if (n4 != "") {#}
+{#            if (new Date(n4) == 'Invalid Date') {#}
+{#                alert('Поле "Срок принятия решений по итогам конференции" содержит некорректную дата');#}
+{#                return false;#}
+{#            }#}
+{#        }#}
+
+        if (v.length>200 ) {
+            alert(' "Тема конференции" должна содержать не более 200 символов');
+            return false;
+        }
+        if (n1.length>10) {
+            alert(' "Время проведения конференции с" должно содержать не более 10 символов');
+            return false;
+        }
+        if (n2.length>10) {
+            alert(' "Время проведения конференции по" должно содержать не более 10 символов');
+            return false;
+        }
+        if (n3.length>10) {
+            alert('"Срок подачи статей и докладов" должно содержать не более 10 символов');
+            return false;
+        }
+        if (n4.length>10) {
+            alert(' "Срок принятия решений по итогам конференции" должно содержать не более 10 символов');
+            return false;
+        }
+{#        if (k.length>200) {#}
+{#            alert(' "Состав оргкомитета" должен содержать не более 200 символов');#}
+{#            return false;#}
+{#        }#}
+
+    }
+
+    $(document).ready(function () {
+                $.datepicker.regional['ru'] = {
+                    closeText: 'Закрыть',
+                    prevText: '&#x3c;Пред',
+                    nextText: 'След&#x3e;',
+                    currentText: 'Сегодня',
+                    monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+				      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+                    monthNamesShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
+					  'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+                    dayNames: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+                    dayNamesShort: ['вск', 'пнд', 'втр', 'срд', 'чтв', 'птн', 'сбт'],
+                    dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                    dateFormat: 'dd.mm.yy',
+                    firstDay: 1,
+                    isRTL: false
+                };
+                $.datepicker.setDefaults($.datepicker.regional["ru"]);
+    $("#id_date_launch_po").datepicker({ dateFormat: 'dd.mm.yy', changeMonth: true, changeYear: true });
+     $("#id_date_launch_s").datepicker({ dateFormat: 'dd.mm.yy', changeMonth: true, changeYear: true });
+      $("#id_srok_podacha").datepicker({ dateFormat: 'dd.mm.yy', changeMonth: true, changeYear: true });
+      $("#id_srok_prin_resh_itog").datepicker({ dateFormat: 'dd.mm.yy', changeMonth: true, changeYear: true });
+
+        $("#id_published_dateconf").prop('readonly', true);
+{#        $("#id_authorconf").prop('readonly', true);#}
+            });
+</script>
+ <style>
+    #id_published_dateconf{
+    color: rgba(102, 102, 102, 0.63);
+   }
+  </style>
+    <h1 style="text-align: center; font-size: 24px; color: #666666;">Форма для создания конференции</h1>
+    <div class="post">
+    {% for message in messages %}
+<div style="color: #cd0a0a;font-size: 14px;" class="message {{ message.tags }}">
+    {{ message }}
+</div>
+{% endfor %}
+     <form name="myForm" onsubmit="return validateForm()"  action=""  method="POST" class="post-form">{% csrf_token %}
+
+{#            {{ form.as_p }}#}
+
+{#              <label class="mystyl2" for="authorconf">Организатор</label>#}
+             <p class="mystyl"> {{ form.authorconf.as_hidden }}</p>
+                       {{ form.otmenpublic.as_hidden }}
+
+{#         <label class="mystyl2" for="id_last_name1">Организация</label>#}
+             <p class="mystyl"> {{ form.org.as_hidden }}</p>
+
+             <label class="mystyl2" for="id_last_name1">Отрасль науки</label>
+             <p class="mystyl"> {{ form.branch_science }}</p>
+          <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+
+             <label class="mystyl2" for="id_last_name1">Тема конференции</label>
+             <p class="mystyl"> {{ form.titleconf }}</p>
+          <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+
+           <label class="mystyl2" for="id_last_name1">Дата публикации</label>
+             <p class="mystyl3" style="width: 95px;"> {{ form.published_dateconf }}</p>
+
+             <label class="mystyl2" for="id_last_name1">Время проведения конференции с и по</label>
+             <p class="mystyl3" style="width: 95px;"> {{ form.date_launch_s }}  {{ form.date_launch_po }}</p>
+          <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+
+             <label class="mystyl2" for="id_last_name1">Срок подачи статей и докладов</label>
+             <p class="mystyl3" style="width: 95px;"> {{ form.srok_podacha }}</p>
+          <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+
+             <label class="mystyl2" for="id_last_name1">Срок принятия решений по итогам конференции</label>
+             <p class="mystyl3" style="width: 95px;"> {{ form.srok_prin_resh_itog }}</p>
+          <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+
+             <label class="mystyl2" for="id_last_name1">Описание конференции и требования к публикации</label>
+             <p class="mystyl"> {{ form.textconf }}</p>
+             <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+
+{#             <label class="mystyl2" for="id_last_name1">Требования к публикации</label>#}
+{#             <p class="mystyl"> {{ form.trebovania }}</p>#}
+{#            <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>#}
+
+             <label class="mystyl2" for="id_last_name1">Состав оргкомитета</label>
+             <p class="mystyl"> {{ form.sostav_orgkomitet }}</p>
+
+          <input style="margin-left: 305px; margin-bottom: 36px; " type="submit" class="button4" value="Создать конференцию"/>
+        </form>
+        </div>
+ {% comment %}{{ items }}
+    {% for item in items %}
+
+           {{ item.published_dateconf }}
+
+        {% endfor %}{% endcomment %}
+
+{% endblock %}

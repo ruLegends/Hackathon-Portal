@@ -1,0 +1,51 @@
+
+{% extends 'new/base.html' %}
+{% block content %}
+    <script>
+    function validateForm() {
+
+        var c = document.forms["myForm"]["id_foto"].value;
+
+
+        if (c == "") {
+            alert('Файл не загружен');
+            return false;
+        }
+
+        if (c != "" & v != "" & f != "" & o!="" & h!="") {
+        document.getElementById("saving-dialog").style.display = "block";
+        //document.write('<div style="font-family: sans-serif; position: fixed; left: 0; top: 0; right:0; bottom:0; background: rgb(129, 166, 197); z-index: 30;"><div style="width: 250px; height: 100px; position: absolute; left: 50%;top: 48%; margin-left:-125px; margin-top:-75px; color:#fff; font-size:40px; letter-spacing:-2px; text-align:center; line-height:35px;2"><span style="position: absolute; width: 41px; height: 41px; background: url(../../Images/dddd/ajax_loader_blue_512.gif) center center no-repeat; background-size:41px; margin: -16px 0 0 -16px;"></span><br>Подождите<br><small style="font-size: 25px; padding-top:16px;">идет сохранение данных</small></div></div> ');
+         }
+
+    }
+
+</script>
+    <div id="saving-dialog" style="display: none">
+                   <div class="contpre77"><span class="svg_anm77"></span><br>Подождите<br><small>идет сохранение данных</small></div>
+               </div>
+        <h1 style="text-align: center; font-size: 24px; color: #666666;">Замена фото пользователя </h1>
+    <div class="post">
+    {% for message in messages %}
+<div style="color: #cd0a0a;font-size: 14px;" class="message {{ message.tags }}">
+    {{ message }}
+</div>
+{% endfor %}
+        <form name="myForm" onsubmit="return validateForm()" action=""  method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
+
+
+             <label class="mystyl2" for="id_last_name1">Фото для загрузки</label>
+
+
+            <input id="id_foto" name="foto" type="file" accept="image/jpeg,image/png">
+
+<p style="margin: 0px;font-size: 15px;color: #b99707;">Загружать фото в формате .jpeg или .png</p>
+<p style="margin: 0px;font-size: 15px;color: #b99707;">Размер фото 650x650</p>
+
+             <p class="mystyl"> {{ foto.user.as_hidden }}</p>
+
+            <div style="margin-top: 29px;">
+            <input style="margin-left: 378px;  margin-bottom: 36px;" type="submit" class="button4" value="Загрузить"/>
+            </div>
+        </form>
+    </div>
+    {% endblock %}

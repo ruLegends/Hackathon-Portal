@@ -1,0 +1,42 @@
+
+{% extends 'new/base.html' %}
+
+    {% block content %}
+	<div class="post">
+	 <table style="margin-top: 50px; margin-left: 41%; margin-bottom: 50px;">
+        <thead>
+            <tr style="background-color: #A9B8CD;">
+
+                <th style="border:1px solid #696767;">
+                    Поле №1
+                </th>
+                <th style="border:1px solid #696767;">
+                    Поле №2
+                </th>
+                                
+            </tr>
+        </thead>
+        <tbody>
+        {% for test23 in testr %}
+            <tr style="background-color: #ffffff;">
+
+                    <th style="border:1px solid #000;">
+                       {{ test23.user_id }}
+                    </th>
+                    <th style="border:1px solid #000;">
+                       {{ test23.user_name }}
+                    </th>
+                                      
+                </tr>
+				
+			<!-- <table cellspacing="1" id="rtr">
+			<tr> 
+			<td>{{ test23.user_id }}</td> 
+			<td>{{ test23.user_name }}</td> 
+			</tr> -->
+			            
+        {% endfor %}
+		 </tbody>
+			</table>
+	</div>
+    {% endblock content %}

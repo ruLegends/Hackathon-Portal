@@ -1,0 +1,63 @@
+{% extends 'new/base.html' %}
+
+    {% block content %}
+           <h1 style="text-align: center; font-size: 24px; color: #666666;">Заявка</h1>
+         <form name="myForm" onsubmit="return validateForm()" action=""  method="POST" class="post-form">{% csrf_token %}
+        <div class="post">
+
+                <div>
+                    <p> <label style="color: rgba(0, 121, 178, 0.57); font-weight: bold;">Организатор:</label>&nbsp;{{ contact.login_user.last_name}}  {{ contact.login_user.first_name}}
+                        {% if contact.login_user.patronymic != None %}
+                        {{ contact.login_user.patronymic}}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <p> <label style="color: rgba(0, 121, 178, 0.57); font-weight: bold;">Организация:</label>&nbsp;&nbsp;{{ contact.org }}</p>
+                </div>
+                <div>
+                 <p><label style="color: rgba(0, 121, 178, 0.57); font-weight: bold;">Отрасль науки:</label>&nbsp;&nbsp; {{ contact.branch_science }}</p>
+                </div>
+                 <div>
+                 <p><label style="color: rgba(0, 121, 178, 0.57); font-weight: bold;">Тема коференции:</label>&nbsp;&nbsp; {{ contact.nameconfer }}</p>
+                </div>
+                <div>
+                 <p><label style="color: rgba(0, 121, 178, 0.57); font-weight: bold;">Время проведения конференции с:</label>&nbsp;&nbsp; {{ contact.date_launch_s }}</p>
+                    <p><label style="margin-left: 279px; color: rgba(0, 121, 178, 0.57); font-weight: bold;">по:</label>&nbsp;&nbsp; {{ contact.date_launch_po }}</p>
+                </div>
+                 <div>
+                 <p><label style="color: rgba(0, 121, 178, 0.57); font-weight: bold;">Срок подачи статей и докладов:</label>&nbsp;&nbsp;{{ contact.srok_podacha }}</p>
+                </div>
+                 <div>
+                 <p><label style="color: rgba(0, 121, 178, 0.57); font-weight: bold;">Срок принятия решений по итогам конференции:</label>&nbsp;&nbsp; {{ contact.srok_prin_resh_itog }}</p>
+                </div>
+{#                <div>#}
+{#                 <p><label style="color: rgba(0, 121, 178, 0.57); font-weight: bold;">Требования к публикации:</label>&nbsp;&nbsp;  {{ contact.trebovania }}</p>#}
+{#                </div>#}
+
+               <div>
+                 <p><label style="color: rgba(0, 121, 178, 0.57); font-weight: bold;">Состав оргкомитета:</label>&nbsp;&nbsp; {{ contact.sostav_orgkomitet }}</p>
+                </div>
+                <div>
+                 <p><label style="color: rgba(0, 121, 178, 0.57); font-weight: bold; margin-left: 328px;">Описание конференции</label>&nbsp;&nbsp;</p>
+                   <div>
+                      {{ contact.message }}
+                   </div>
+                    {%  if contact.status_id == 1 %}
+
+                  <a style="margin-left: 221px; margin-bottom: 20px;" href="/conference_new2/{{ contact.id }}" class="button4">Создать конференцию с темой из заявки</a>
+
+
+				   <a style="margin-left: 256px; margin-bottom: 36px;" href="/conttwstper/{{ contact.id }}" class="button4">Отклонить создание конференции</a>
+
+                {% endif %}
+                 {%  if contact.status_id == 2 %}
+
+                {% endif %}
+                  {%  if contact.status_id == 3 %}
+                 <a style="margin-left: 221px; margin-bottom: 36px;" href="/conference_new2/{{ contact.id }}" class="button4">Создать конференцию с темой из заявки</a>
+                {% endif %}
+                </div>
+
+        </div>
+</form>
+    {% endblock %}

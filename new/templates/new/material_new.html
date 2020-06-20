@@ -1,0 +1,153 @@
+
+{% extends 'new/base.html' %}
+{% block content %}
+    <script>
+    function validateForm() {
+
+        var c = document.forms["myForm"]["id_titlematirial"].value;
+        var v = document.forms["myForm"]["id_section"].value;
+        var f = document.forms["myForm"]["id_file_obj"].value;
+        var o = document.forms["myForm"]["id_authormatirial2"].value;
+        var h = document.forms["myForm"]["id_org"].value;
+
+        if (c == "" & v == "" & f=="" & o=="" & h=="") {
+            alert('Необходимо заполнить поля "Автор материала", "Организация", "Заголовок", "Секция" и "Файл для загрузки"');
+            return false;
+        }
+
+        if (c == "") {
+            alert('Поле "Заголовок" необходимо заполнить');
+            return false;
+        }
+        if (v == "") {
+            alert('Поле "Секция" необходимо заполнить');
+            return false;
+        }
+
+        if (f == "") {
+            alert('Файл не загружен');
+            return false;
+        }
+        if (o == "") {
+            alert('Поле "Автор материала" необходимо заполнить');
+            return false;
+        }
+        if (h == "") {
+            alert('Поле "Организация" необходимо заполнить');
+            return false;
+        }
+        if (c != "" & v != "" & f != "" & o!="" & h!="") {
+        document.getElementById("saving-dialog").style.display = "block";
+        //document.write('<div style="font-family: sans-serif; position: fixed; left: 0; top: 0; right:0; bottom:0; background: rgb(129, 166, 197); z-index: 30;"><div style="width: 250px; height: 100px; position: absolute; left: 50%;top: 48%; margin-left:-125px; margin-top:-75px; color:#fff; font-size:40px; letter-spacing:-2px; text-align:center; line-height:35px;2"><span style="position: absolute; width: 41px; height: 41px; background: url(../../Images/dddd/ajax_loader_blue_512.gif) center center no-repeat; background-size:41px; margin: -16px 0 0 -16px;"></span><br>Подождите<br><small style="font-size: 25px; padding-top:16px;">идет сохранение данных</small></div></div> ');
+         }
+
+        if (o.length>300) {
+            alert(' "Автор материала" должен содержать не более 300 символов');
+            return false;
+        }
+        if (с.length>140) {
+            alert(' "Заголовок" должен содержать не более 140 символов');
+            return false;
+        }
+
+    }
+{#    $(document).ready(function () {#}
+{#            CKEDITOR.replace('content', {#}
+{#                filebrowserBrowseUrl : '/images/image_browser/',#}
+{#                filebrowserUploadUrl: '/images/image_uploader/'#}
+{#            });#}
+{#        });#}
+
+        $(document).ready(function () {
+        function sorted(id){for(var c=document.getElementById(id),b=c.options,a=0;a<b.length;)
+        if(b[a+1]&&b[a].text>b[a+1].text){c.insertBefore(b[a+1],b[a]);a=a>=1?a-1:a+1}else a++;
+        b[0].selected=true };
+        sorted("id_section");
+         });
+</script>
+
+    <div id="saving-dialog" style="display: none">
+                   <div class="contpre77"><span class="svg_anm77"></span><br>Подождите<br><small>идет сохранение данных</small></div>
+               </div>
+        <h1 style="text-align: center; font-size: 24px; color: #666666;">Форма создания материала для конференции </h1>
+    <div class="post">
+    {% for message in messages %}
+<div style="color: #cd0a0a;font-size: 14px;" class="message {{ message.tags }}">
+    {{ message }}
+</div>
+{% endfor %}
+        <form name="myForm" onsubmit="return validateForm()" action=""  method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
+{#            {{ form.as_p }}#}
+{#             <label class="mystyl2" for="id_last_name1">Отрасль науки</label>#}
+             <p class="mystyl"> {{ form.branch_science.as_hidden }}</p>
+             <p class="mystyl"> {{ form.otmenpublic.as_hidden }}</p>
+
+{#             <label class="mystyl2" for="id_last_name1">Материал для конференции</label>#}
+             <p class="mystyl"> {{ form.conference.as_hidden }}</p>
+            <label class="mystyl2" for="id_last_name1">Автор или авторы материала </label>
+            <p class="mystyl" style="width: 943px;"> {{ form.authormatirial2 }}</p>
+             <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+
+            <label class="mystyl2" for="id_last_name1">Организация</label>
+            <p class="mystyl" style="width: 95px;"> {{ form.org }}</p>
+             <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+
+             <label class="mystyl2" for="id_last_name1">Заголовок</label>
+{#             <p class="mystyl"> {{ form.titlematirial }}</p>#}
+           <p class="mystyl"> <input style="width: 943px;" class="mystyl"  id="id_titlematirial" maxlength="140" name="titlematirial" type="text"></p>
+             <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 11px;">Обязательное поле</p>
+            <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px;">Заголовок может содержать не более 140 символов.</p>
+
+            <label class="mystyl2" for="id_last_name1">Секция</label>
+         <p class="mystyl" >   {{ form.section }}</p>
+             <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+{#<p>#}
+{#<select>#}
+{#{% for ii in form.section %}#}
+{#    {% if ii.cofer_id == form.conference_id%}#}
+{#    <option {{ ii}}>#}
+{#    {% endif %}#}
+{#{% endfor %}#}
+{#</select>#}
+{#</p>#}
+
+{#             <label class="mystyl2" for="id_last_name1">Создатель материала</label>#}
+             <p class="mystyl" style="width: 95px;"> {{ form.authormatirial.as_hidden }}</p>
+{#            <label class="mystyl2" for="id_last_name1">Дата публикации</label>#}
+             <p class="mystyl" style="width: 95px;"> {{ form.published_datematerial.as_hidden }}</p>
+
+             <label class="mystyl2" for="id_last_name1">Файл для загрузки</label>
+{#             {{ form.file_obj }}#}
+
+            <input id="id_file_obj" name="file_obj" type="file" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+ <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: 0px;margin-bottom: -5px;">Обязательное поле</p>
+<p style="margin: 0px;font-size: 15px;color: #b99707;">Загружать файл в формате .doc, .docx или .pdf</p>
+{#             <label class="mystyl2" for="id_last_name1">Текст</label>#}
+{#             <p class="mystyl" style="width: 95px;"> {{ form.textmaterial }}</p>#}
+<div id="blockslov">
+    <div class="leftslov">
+         <label class="mystyl2" style="margin-bottom: -15px; margin-top: 10px;" for="id_last_name1">Аннотация (Rus)</label>
+         <p class="mystyl" >   {{ form.annotation_rus }}</p>
+             <label class="mystyl2" style="margin-bottom: -15px; margin-top: 10px;" for="id_last_name1">Аннотация (Eng)</label>
+          <p class="mystyl" >   {{ form.annotation_usa }}</p>
+        </div>
+    <div class="leftslov2">
+             <label class="mystyl2" style="margin-bottom: -15px; margin-top: 10px;" for="id_last_name1">Ключевые слова (Rus)</label>
+         <p class="mystyl" >   {{ form.keywords_rus }}</p>
+             <label class="mystyl2" style="margin-bottom: -15px; margin-top: 10px;" for="id_last_name1">Ключевые слова (Eng)</label>
+         <p class="mystyl" >   {{ form.keywords_usa }}</p>
+    </div>
+</div>
+            <div style="display: none">
+             <label class="mystyl2" for="id_last_name1">Для администратора</label>
+             <p class="mystyl"> {{ form.message_com.as_hidden }}</p>
+
+             <label class="mystyl2" for="id_last_name1">Статус</label>
+             <p class="mystyl"> {{ form.status.as_hidden }}</p>
+             </div>
+            <div style="margin-top: 29px;">
+            <input style="margin-left: 378px;  margin-bottom: 36px;" type="submit" class="button4" value="Создать"/>
+            </div>
+        </form>
+    </div>
+    {% endblock %}

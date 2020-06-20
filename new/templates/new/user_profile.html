@@ -1,0 +1,162 @@
+{% extends 'new/base.html' %}
+{% load staticfiles %}
+
+
+
+{% block content %}
+    <script>
+    function validateForm() {
+        var t1 = document.forms["myForm"]["id_last_name"].value;
+        var t2 = document.forms["myForm"]["id_first_name"].value;
+        var t = document.forms["myForm"]["id_organization"].value;
+        var vv = document.forms["myForm"]["id_security_question"].value;
+        var oo = document.forms["myForm"]["id_check_answer"].value;
+
+        var h = document.forms["myForm"]["id_patronymic"].value;
+        var j = document.forms["myForm"]["id_data_birth"].value;
+		var k = document.forms["myForm"]["id_address"].value;
+		var l = document.forms["myForm"]["id_phone"].value;
+
+        if (t1 == "" & t2 == "" & t == "" & vv == "" & oo == "" ) {
+            alert('Поля "Фамилия", "Имя", "Контрольный вопрос", "Ответ на контрольный вопрос" и "Организация" необходимо заполнить');
+            return false;
+        }
+         if (t1 == "" ) {
+            alert('Поле "Фамилия"  необходимо заполнить');
+            return false;
+        }
+         if (t2 == "" ) {
+            alert('Поле "Имя" необходимо заполнить');
+            return false;
+        }
+         if ( t == "" ) {
+            alert('Поле "Организация" необходимо заполнить');
+            return false;
+        }
+
+        if ( vv == "" ) {
+            alert('Поле "Контрольный вопрос"');
+            return false;
+        }
+        if ( oo == "" ) {
+            alert('Поле "Ответ на контрольный вопрос"');
+            return false;
+        }
+
+        if (vv.length>100 ) {
+            alert(' Контрольный вопрос должен содержать не более 100 символов');
+            return false;
+        }
+		if (oo.length>30 ) {
+            alert(' Ответ на контрольный вопрос должен содержать не более 30 символов');
+            return false;
+        }
+		if (t1.length>30 ) {
+            alert(' Фамилия должена содержать не более 30 символов');
+            return false;
+        }
+		if (t2.length>30 ) {
+            alert(' Имя должно содержать не более 30 символов');
+            return false;
+        }
+		if (h.length>30 ) {
+            alert('Отчество должно содержать не более 30 символов');
+            return false;
+        }
+{#		if (j.length>30 ) {#}
+{#           alert('Дата рождения должна содержать не более 30 символов');#}
+{#          return false;#}
+{#       }#}
+		if (k.length>200 ) {
+            alert('Место жительства (нас. пункт) должно содержать не более 200 символов');
+            return false;
+        }
+		if (l.length>20 ) {
+            alert('Номер телефона должен содержать не более 20 символов');
+            return false;
+        }
+
+{#        if (j != ""  || j != " ") {#}
+{#            if (new Date(j) == 'Invalid Date') {#}
+{#                alert('Поле "Дата рождения" содержит некорректную дата');#}
+{#                return false;#}
+{#            }#}
+{#        }#}
+
+
+    }
+    $(document).ready(function () {
+                $.datepicker.regional['ru'] = {
+                    closeText: 'Закрыть',
+                    prevText: '&#x3c;Пред',
+                    nextText: 'След&#x3e;',
+                    currentText: 'Сегодня',
+                    monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+				      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+                    monthNamesShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
+					  'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+                    dayNames: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+                    dayNamesShort: ['вск', 'пнд', 'втр', 'срд', 'чтв', 'птн', 'сбт'],
+                    dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                    dateFormat: 'dd.mm.yy',
+                    firstDay: 1,
+                    isRTL: false
+                };
+                $.datepicker.setDefaults($.datepicker.regional["ru"]);
+    $("#id_data_birth").datepicker({ dateFormat: 'dd.mm.yy', changeMonth: true, changeYear: true });
+
+
+            });
+
+</script>
+        <h1 style="text-align: center; font-size: 24px; color: #666666;">Форма редактирования учетной записи</h1>
+    <div class="item442">
+     <div style="background-color: #d5d9de; " class="post">
+{#     {{first_article}}#}
+       {% for fotoe in user.fotos.all %}
+
+           {% if fotoe.user_id == user.pk %}
+         <img class="bb78" src="/media/{{ fotoe.foto }}" >
+                <a  href="/ed_us_foto/{{fotoe.pk }}"  class="buttonfoto" title="Добавить/заменить фото">Добавить/заменить фото</a>
+            {% endif %}
+
+         {% endfor %}
+     {% if user.fotos.all.count == 0 %}
+            <img class="bb78" src={% static "css/images/chelovek.png" %} >
+         <a  href="/photo_us1/{{user.pk }}"  class="buttonfoto" title="Добавить/заменить фото">Добавить/заменить фото</a>
+
+           {% endif %}
+
+         </div>
+    </div>
+    <div class="item441">
+    <div class="post" style="width: 301px;">
+        <form name="myForm" onsubmit="return validateForm()" action=""  method="POST" class="post-form">{% csrf_token %}
+{#       {{ form.as_p }}#}
+           <label class="mystyl2" for="id_last_name1">Фамилия</label>
+          <p class="mystyl"> {{ form.last_name }}</p>
+             <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+           <label class="mystyl2" for="id_first_name1">Имя</label>
+         <p class="mystyl">  {{ form.first_name }}</p>
+             <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+           <label class="mystyl2" for="id_patronymic1">Отчество</label>
+          <p class="mystyl">  {{ form.patronymic }}</p>
+
+            <label class="mystyl2" for="id_first_name1">Контрольный вопрос</label>
+         <p class="mystyl">  {{ form.security_question }}</p>
+             <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+           <label class="mystyl2" for="id_patronymic1">Ответ на контрольный вопрос</label>
+          <p class="mystyl">  {{ form.check_answer }}</p>
+             <p style="margin: 0px;font-size: 15px;color: #b99707; margin-top: -16px; margin-bottom: 12px;">Обязательное поле</p>
+
+           
+            <label class="mystyl2" for="id_phone1">Номер телефона</label>
+         <p class="mystyl">  {{ form.phone }}</p>
+            
+
+
+            <input style=" margin-bottom: 36px;  margin-left: 77px;" type="submit" class="button4" value="Сохранить"/>
+        </form>
+    </div>
+    </div>
+    {% endblock %}

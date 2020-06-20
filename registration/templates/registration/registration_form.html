@@ -1,0 +1,135 @@
+{% extends 'new/base.html' %}
+{% load staticfiles %}
+    {% block content %}
+{#<script>#}
+{#   function validateForm() {#}
+{#        var x = document.forms["myForm"]["id_username"].value;#}
+{##}
+{##}
+{#       if (x.length>30) {#}
+{#            alert('Поле слишком длинное!!');#}
+{#            return false;#}
+{#        }#}
+{##}
+{##}
+{#    }#}
+{##}
+{#</script>#}
+        <script>
+        $(document).ready(function () {
+                $.datepicker.regional['ru'] = {
+                    closeText: 'Закрыть',
+                    prevText: '&#x3c;Пред',
+                    nextText: 'След&#x3e;',
+                    currentText: 'Сегодня',
+                    monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+				      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+                    monthNamesShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
+					  'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+                    dayNames: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+                    dayNamesShort: ['вск', 'пнд', 'втр', 'срд', 'чтв', 'птн', 'сбт'],
+                    dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                    dateFormat: 'dd.mm.yy',
+                    firstDay: 1,
+                    isRTL: false
+                };
+                $.datepicker.setDefaults($.datepicker.regional["ru"]);
+    $("#id_data_birth").datepicker({ dateFormat: 'dd.mm.yy', changeMonth: true, changeYear: true });
+    $("#id_country").val("172");
+
+            });
+
+        function validateForm() {
+
+        var a = document.forms["myForm"]["id_password1"].value;
+        var b = document.forms["myForm"]["id_username"].value;
+        var c = document.forms["myForm"]["id_email"].value;
+		var g = document.forms["myForm"]["id_security_question"].value;
+		var f = document.forms["myForm"]["id_check_answer"].value;
+		var d = document.forms["myForm"]["id_last_name"].value;
+
+		var s = document.forms["myForm"]["id_first_name"].value;
+        var h = document.forms["myForm"]["id_patronymic"].value;
+        var j = document.forms["myForm"]["id_data_birth"].value;
+		var k = document.forms["myForm"]["id_address"].value;
+		var l = document.forms["myForm"]["id_phone"].value;
+
+
+        if (a.length>30 ) {
+            alert(' Пароль должен содержать не более 30 символов');
+            return false;
+        }
+		if (b.length>30 ) {
+            alert(' Логин должен содержать не более 30 символов');
+            return false;
+        }
+		if (c.length>100 ) {
+            alert(' Email должен содержать не более 100 символов');
+            return false;
+        }
+		if (g.length>100 ) {
+            alert(' Контрольный вопрос должен содержать не более 100 символов');
+            return false;
+        }
+		if (f.length>30 ) {
+            alert(' Ответ на контрольный вопрос должен содержать не более 30 символов');
+            return false;
+        }
+		if (d.length>30 ) {
+            alert(' Фамилия должена содержать не более 30 символов');
+            return false;
+        }
+		if (s.length>30 ) {
+            alert(' Имя должно содержать не более 30 символов');
+            return false;
+        }
+		if (h.length>30 ) {
+            alert('Отчество должно содержать не более 30 символов');
+            return false;
+        }
+		if (j.length>10 ) {
+            alert('Дата рождения должна содержать не более 10 символов');
+            return false;
+        }
+		if (k.length>200 ) {
+            alert('Место жительства (нас. пункт) должно содержать не более 200 символов');
+            return false;
+        }
+		if (l.length>20 ) {
+            alert('Номер телефона должен содержать не более 20 символов');
+            return false;
+        }
+      
+
+    }
+</script>
+ <div style="border: 1px ridge #0079b2; padding: 2px;">
+ <p style=" font-size: 13px;/* margin-left: 199px; */color: #b99707;text-align: center;">После завершения регистрации необходимо нажать <img style=" width: 106px;" src={% static "css/images/spr.png" %} >. На открывшейся странице ввести Логин и Пароль указанные при регистрации.</p>
+ </div>
+       <h1 style="text-align: center; font-size: 24px; color: #666666;">Регистрация</h1>
+
+<form method="post" action="" name="myForm" onsubmit="return validateForm()">
+<div id="frt" style="width: 301px; margin-left: 31%;">
+        <div>
+<dl class="register">
+{% for field in form %}
+<div style="margin-bottom: 15px;">
+{{ field.label_tag }}
+   {{ field }}
+
+
+    {% if field.help_text %}<div class="clearfix">{{ field.help_text }}</div>{% endif %}
+    {% if field.errors %}<div class="myerrors clearfix">{{ field.errors }}</div>{% endif %}
+
+</div>
+{% endfor %}
+{% csrf_token %}
+</dl>
+ {{ field.email }}
+
+<input style="margin-left: 3px;/* margin-bottom: 36px; */width: 296px;height: 38px;margin-top: 19px;;" type="submit" value="Зарегистрироваться"  class="button4">
+ </div>
+        </div>
+</form>
+
+    {% endblock content %}

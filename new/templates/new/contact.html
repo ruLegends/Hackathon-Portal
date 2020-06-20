@@ -1,0 +1,24 @@
+{% extends 'new/base.html' %}
+
+    {% block content %}
+
+        <div class="post" style="width: 350px; margin-left: 325px" >
+        <a href="{% url 'new.views.contact_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span>///</a>
+{% if form.errors %}
+        <p style="color: red;">Пожалуйста, исправьте ошибки.</p>
+    {% endif %}
+<p style="font-size: 24px; color: #666666; text-align: center;">Заявка на создание конференции.</p>
+    <form action="" method="post">
+        {% for field in form %}
+            <p>
+                <label style="display: table;" >{{ field.label }}</label>
+
+                {{ field }}
+
+                {{ field.errors }}
+            </p>
+        {% endfor %}
+        <input type="submit" value="Отправить">
+         {% csrf_token %}
+    </form></div>
+{% endblock content %}

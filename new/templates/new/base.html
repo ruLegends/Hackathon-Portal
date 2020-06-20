@@ -1,0 +1,157 @@
+ {% load staticfiles %}
+<html>
+        <head>
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'jquery_ui/js/jquery-ui.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'dataTables/jquery.dataTables.js' %}"></script>
+<script type="text/javascript" src="{% static 'scroll/gotop.js' %}"></script>
+
+
+
+
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        <link rel="stylesheet" href="{% static 'jquery_ui/css/jquery-ui/cupertino/jquery-ui.css' %}">
+         <link rel="stylesheet" href="{% static 'jquery_ui/css/jquery-ui/cupertino/theme.css' %}">
+		<link rel="stylesheet" href="{% static 'dataTables/jquery.dataTables.css' %}">
+		<!--<link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">-->
+            <title>Портал идей и предложений</title>
+
+   <script>
+        $(window).on('load', function () {
+                var $preloader = $('#p_prldr'),
+                $svg_anm = $preloader.find('.svg_anm');
+                $svg_anm.fadeOut();
+                $preloader.delay(500).fadeOut('slow');
+            });
+  </script>
+
+
+        </head>
+        <body>
+<div class="container">
+
+
+<div id="responsive-tabletext">
+<div id="p_prldr"><div class="contpre"><span class="svg_anm"></span><br>Подождите<br><small>идет загрузка страницы</small></div></div>
+    <div class="sidebar" style=" margin-bottom: 20px;">
+
+    <div>
+        <img class="bb2" src={% static "css/images/logo.png" %} >
+   			<a id="a" href="/" style="font-size: 24px;  margin-bottom: 62px; text-align: center;">Портал идей и предложений</a>
+    </div>
+<div><a class="button27fc" href="" onclick = "return confirm('Сайт и страница находится в разработке');" class="button27fc">Поиск</a></div>
+                     <hr>
+        {%  if not request.user.is_authenticated %}
+           <div><a class="button27logon" href="/accounts/login/" class="button27logon">Войти на сайт</a></div>
+
+         <hr>
+           <div><a class="button27pas" href="/new_pass/">Восстановление пароля</a></div>
+            <hr>
+           <!-- <diV><a class="button27reg" href="/accounts/register/" class="button27reg">Регистрация на сайте</a></diV> -->
+		   <diV><a class="button27reg" href="" onclick = "return confirm('Сайт и страница находится в разработке');" class="button27reg">Регистрация на сайте</a></diV>
+
+
+          {% endif %}
+             {%  if request.user.is_authenticated %}
+                <div><a class="button27" href="/user_profile/{{ user.pk }}" class="button27">Моя учетная запись</a></div>
+                 <hr>
+                 {% if perms.new.delete_contactform %}
+
+                <div><a class="button27u" href="/user_list/" class="button27u">Список пользователей</a></div>
+                     <hr>
+              
+                 <div><a class="button27fc" href="/full_list_confer/" class="button27fc">Комнаты</a></div>
+                     <hr>
+              {% endif %}
+                  
+
+                 <div><a class="button27mc" href="/my_conferents/{{ user.pk }}" class="button27mc">Мои комнаты</a></div>
+                 <hr>
+                 <div><a class="button27mcm" href="/my_material/{{ user.pk }}" class="button27mcm">Мои идеи и предложения</a></div>
+                 <hr>
+                  
+                <div><a class="button27logoff"  href="/accounts/logout/" class="button27logoff">Выход</a></div>
+
+
+            {% endif %}
+
+
+   </div>
+ {% autoescape off %}
+ <div class="content">
+ <div class="header">
+{# <img class="bb2" src={% static "css/images/logo2.png" %} >#}
+{#   			<a id="a" href="/" style="margin-top: 38px;">Интернет-конференции</a>#}
+ <div class="masonry">
+   {%  if request.user.is_authenticated %}
+
+
+       <div class="item445">
+{#{% for foto in user.fotos.all %}#}
+{#    {{ foto.foto }}#}
+{#           {% endfor %}#}
+{#       <img class="bb" src={% static "css/images/chelovek.png" %} >#}
+       {% for fotoe in user.fotos.all %}
+
+           {% if fotoe.user_id == user.pk %}
+         <img class="bb" src="/media/{{ fotoe.foto }}" >
+
+            {% endif %}
+
+         {% endfor %}
+     {% if user.fotos.all.count == 0 %}
+            <img class="bb" src={% static "css/images/chelovek.png" %} >
+
+
+           {% endif %}
+
+       </div>
+        <div class="item444">
+             <p class="nik">Здравствуйте, {{ user.first_name }}
+                 {% if user.patronymic == None %}
+
+                     {% else %}
+                 {{ user.patronymic }}
+                     {% endif %}
+                 &nbsp;({{ user.username }})</p>
+          </div>
+            {% endif %}
+ </div>
+  </div>
+ <div>
+ <ul id="navbar">
+{% load menubuilder %}
+
+{% menu main_menu %}
+
+{% for item in menuitems %}
+    <li {% if item.current %}class="active"{% endif %}>
+        <a href="{{ item.url }}" title="{{ item.title|escape }}">{{ item.title }}</a>
+    </li>
+{% endfor %}
+</ul>
+</div>
+ <div style="margin: 15px; ">
+
+     {% block content %}
+     {% endblock %}
+ </div>
+
+     </div>
+  {% endautoescape %}
+</div>
+
+
+<a id="gotop" class="scrollTop" href="#" onclick="top.goTop(); return false;"></a>
+<div class="footer">&copy; <a style="color: #373f46;" href="">Дизайн и разработка сайта "Elmed-РИНХ""</a>
+
+</div>
+</div>
+
+
+</body>
+</html>
+	

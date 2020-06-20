@@ -1,0 +1,38 @@
+
+{% extends 'new/base.html' %}
+
+{% block content %}
+    <script>
+    function validateForm() {
+
+        var f = document.forms["myForm"]["id_username"].value;
+
+
+        if (f == "") {
+            alert('Поле "Логин" не заполненно');
+            return false;
+        }
+
+
+    }
+
+</script>
+
+        <h1 style="text-align: center; font-size: 24px; color: #666666;">Восстановление пароля (Шаг № 1)</h1>
+    <div class="post" style="width: 301px; margin-left: 31%;">
+    {% for message in messages %}
+<div style="color: #cd0a0a;font-size: 14px;" class="message {{ message.tags }}">
+    {{ message }}
+</div>
+        {% endfor %}
+        <form name="myForm" onsubmit="return validateForm()" action=""  method="POST" class="post-form">{% csrf_token %}
+
+<div>
+     <label class="mystyl2" for="id_last_name1">Логин:</label>
+  <p class="mystyl">   {{ form.username }}</p>
+
+           <input style=" margin-bottom: 36px;  margin-left: 77px;" type="submit" class="button4" value="Продолжить"/>
+  </div>
+        </form>
+    </div>
+    {% endblock %}

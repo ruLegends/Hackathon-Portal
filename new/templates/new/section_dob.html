@@ -1,0 +1,42 @@
+
+{% extends 'new/base.html' %}
+{% block content %}
+    <script>
+    function validateForm() {
+
+        var f = document.forms["myForm"]["id_section_name"].value;
+
+
+        if (f == "") {
+            alert('Поле "Секция пусто"');
+            return false;
+        }
+        if (f.length>300 ) {
+            alert(' Секция должна содержать не более 300 символов');
+            return false;
+        }
+
+    }
+
+</script>
+        <h1 style="text-align: center; font-size: 24px; color: #666666;">Форма добавления секции для конференции </h1>
+    <div class="post">
+    {% for message in messages %}
+<div style="color: #cd0a0a;font-size: 14px;" class="message {{ message.tags }}">
+    {{ message }}
+</div>
+{% endfor %}
+        <form name="myForm" onsubmit="return validateForm()" action=""  method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
+{#            {{ form.as_p }}#}
+
+             <label class="mystyl2" for="id_last_name1">Секция</label>
+             <p class="mystyl"> {{ form.section_name }}</p>
+
+             <p class="mystyl"> {{ form.confer.as_hidden }}</p>
+
+            <div style="margin-top: 29px;">
+            <input style="margin-left: 378px;  margin-bottom: 36px;" type="submit" class="button4" value="Сохранить"/>
+            </div>
+        </form>
+    </div>
+    {% endblock %}

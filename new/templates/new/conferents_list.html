@@ -1,0 +1,70 @@
+{% extends 'new/base.html' %}
+
+    {% block content %}
+<div id="responsive-tabletext">
+<div class="column-first">
+ <!-- <div id="top-area "> -->
+ 
+       <!--  {% for conference in conferences %}
+            {% if conference.otmenpublic == True %}
+                 
+								
+				<div class="column">
+                <h1 style="margin-bottom: -4px;"><a style="color:rgba(0, 121, 178, 0.64); font-size: 18px;"  href="{% url 'post_detail_confer' pk=conference.pk %}">{{ conference.titleconf }}</a></h1>
+				 </div>
+               
+                <div>
+                
+                </div>
+           
+            {% endif %}
+        {% endfor %} -->
+		<!--  </div> -->
+		<div class="column">
+                <h1 style="margin-bottom: -4px;"><a style="color:rgba(0, 121, 178, 0.64); font-size: 18px;" href="/conferences/1/"><img  style="vertical-align: bottom;" src="/static/css/images/clo.png"> Комната для обсуждений #1 (Озеленение офиса)</a></h1>
+				 </div>
+				 <div class="column">
+                <h1 style="margin-bottom: -4px;"><a style="color:rgba(0, 121, 178, 0.64); font-size: 18px;" href="/conferences/1/"><img style="vertical-align: bottom;"  src="/static/css/images/clo.png"> Комната для обсуждений #2(Онлайн-зарядка)</a></h1>
+				 </div>
+				 <div class="column">
+                <h1 style="margin-bottom: -4px;"><a style="color:rgba(0, 121, 178, 0.64); font-size: 18px;" href="/conferences/1/"><img style="vertical-align: bottom;" src="/static/css/images/clo.png"> Комната для обсуждений #3 (Онлайн-медитация)</a></h1>
+				 </div>
+				 <div class="column">
+                <h1 style="margin-bottom: -4px;"><a style="color:rgba(0, 121, 178, 0.64); font-size: 18px;" href="/conferences/1/"><img  style="vertical-align: bottom;" src="/static/css/images/clo.png"> Комната для обсуждений #4 (Организация Кофе-брейков)</a></h1>
+				 </div>
+				  <div class="column">
+                <h1 style="margin-bottom: -4px;"><a style="color:rgba(0, 121, 178, 0.64); font-size: 18px;" href="/conferences/1/"><img  style="vertical-align: bottom;" src="/static/css/images/clo.png"> Комната для обсуждений #5 (Распределение парковочных мест)</a></h1>
+				 </div>
+				 
+				 
+	<div class="column" style="margin-top: 8%;">
+               <img align="left" 
+  vspace="5" hspace="5"  style="vertical-align: bottom;     width: 28%;" src="https://avatars.mds.yandex.net/get-zen_doc/99845/pub_5b38b4e4a9112400ae6e69c1_5b38c3d5e2511d00a84ba108/scale_1200">
+			   <p style="    color: #d03a30;font-weight: bold;text-align: center;font-size: 112%;">КОНКУРС " Самый активный участник портала"</p>
+
+<p>Дорогие друзья! Мы продолжаем награждать самых активных участников нашего портала! 
+Мы высоко ценим вас и ваше активное участие в работе нашей компании: это помогает нам расти, развиваться и радовать вас качественным контентом. 
+Разумеется, это заслуживает поощрения. </p>
+
+<p>- каждый участник группы зарабатывает очки: </p>
+<p> 1 очко за лайк или 2 очка за комментарий. </p>
+				 </div>			 
+				 
+</div>	
+<div class="column-second" style="background-image: url(https://cdn1.ozone.ru/multimedia/1028133828.jpg); background-size: 100%; background-repeat: no-repeat;">
+<p style="text-align: center;color: #ece052;font-weight: bold;font-size: 113%;">Популярные комнаты портала<p>
+<p style="margin-left: 5%;"><a style="color:rgb(255, 255, 255); font-weight: bold;" href="/conferences/1/"><img  style="vertical-align: bottom;     width: 6%;" src="/static/css/images/kdefoldernew.png">  Комната для обсуждений #1 (Озеленение офиса)</a></p>
+<!-- <p style="margin-left: 5%;"><a style="color:rgb(255, 255, 255); font-weight: bold;" href="/conferences/1/"><img  style="vertical-align: bottom;     width: 6%;" src="/static/css/images/kdefoldernew.png">  Комната для обсуждений #2 (Онлайн-зарядка)/a></p> -->
+<!-- <p style="margin-left: 5%;"><a style="color:rgb(255, 255, 255); font-weight: bold;" href="/conferences/1/"><img  style="vertical-align: bottom;     width: 6%;" src="/static/css/images/kdefoldernew.png">  Комната для обсуждений #3 (Онлайн-медитация)</a></p> -->
+<p style="margin-left: 5%;"><a style="color:rgb(255, 255, 255); font-weight: bold;" href="/conferences/1/"><img  style="vertical-align: bottom;    width: 6%;" src="/static/css/images/kdefoldernew.png">  Комната для обсуждений #4 (Организация Кофе-брейков)</a></p>
+<p style="margin-left: 5%;"><a style="color:rgb(255, 255, 255); font-weight: bold;" href="/conferences/1/"><img  style="vertical-align: bottom;     width: 6%;" src="/static/css/images/kdefoldernew.png">  Комната для обсуждений #5 (Распределение парковочных мест)</a></p>
+</div>	
+<div class="column-second">
+<p style="text-align: center; color: #e55819;font-weight: bold;">ДО ОКОНЧАНИЯ КОНКУРСА ОСТАЛОСЬ</p>
+<script src="//megatimer.ru/get/dcb78bc7d93911f11fff066bd796c269.js"></script>
+</div>	
+
+
+</div>	
+	
+    {% endblock content %}

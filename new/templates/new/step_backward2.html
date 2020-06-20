@@ -1,0 +1,22 @@
+{% extends 'new/base.html' %}
+{% load staticfiles %}
+
+    {% block content %}
+
+
+     {% for material in materials %}
+ {% if forloop.first %}
+       {%  if request.user.is_authenticated %}
+     <a style="margin-bottom: 36px; color: #f16300;" href="/material_new/{{ material.id }}" class="button67" title="Добавить материал для конференции">Добавить материал</a>
+     {% endif %}
+<h1 style="text-align: center; font-size: 24px; color: #666666;">Список материалов для конференции "{{ material.confer }}" из секции {{ material.section_name }}</h1>
+{% endif %}
+
+ {% endfor %}
+
+        <div class="post">
+
+        <p style="text-align: center;color: #aaaaaa;">Материалов в секции нет.</p>
+
+        </div>
+ {% endblock content %}

@@ -1,0 +1,115 @@
+{% extends 'new/base.html' %}
+{% load staticfiles %}
+    {% block content %}
+<script>
+ $(document).ready(function () {
+
+    var dataTableLanguage = {
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать записей _MENU_ ",
+                "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка записей...",
+                "zeroRecords": "Записи отсутствуют.",
+                "emptyTable": "В таблице отсутствуют данные",
+                "paginate": {
+                    "first": "Первая",
+                    "previous": "Предыдущая",
+                    "next": "Следующая",
+                    "last": "Последняя"
+                },
+                "aria": {
+                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                    "sortDescending": ": активировать для сортировки столбца по убыванию"
+                }
+            };
+
+            $('#example').dataTable({
+                "language": dataTableLanguage,
+                "Searchable": false
+
+            });
+    });
+  </script>
+<h1 style="text-align: center; font-size: 24px; color: #666666;">Материалы для конференции "{{ conference.titleconf}}"</h1>
+{% if conference.conference_material_set.all.count == 0 %}
+    <p style="text-align: center;color: #aaaaaa;">Для конференции "{{ conference.titleconf}}" нет материалов.</p>
+
+{% else %}
+ <div>
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/kr1.png"%}  > - ожидание</p>
+
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/kr2.png"%} > - создан (опубликован и размещен в конференции)</p>
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/kr3.png"%}> - отклонено</p>
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/eye2.png"%}  >  - материал удален автором из публикации</p>
+</div>
+
+        <table id="example">
+<thead>
+<tr>
+<td style="padding: 10px;"> </td>
+<td style="padding: 10px;">Заголовок материала</td>
+    <td style="padding: 10px;">Секция</td>
+<td style="padding: 10px;">Автор материала</td>
+
+<td style="padding: 10px;">Разместил(а)</td>
+<td style="padding: 10px;">Организация</td>
+<td style="padding: 10px;">Дата создания</td>
+
+<td style="padding: 10px;">Статус материала</td>
+</tr>
+</thead>
+<tbody>
+{% for conf in conference.conference_material_set.all %}
+{#{% if conf.otmenpublic == True %}#}
+<tr style="background: white; font-size: 12px;">
+
+<td style="padding: 10px; color:#aaaaaa;">
+{% if conf.otmenpublic == True %}
+{#<img style="width: 18px; " src={% static "css/images/eyet.png"%}  >#}
+{% endif %}
+{% if conf.otmenpublic == False %}
+<img style="width: 18px;" src={% static "css/images/eye2.png"%} >
+{% endif %}
+</td>
+
+<td style="padding: 10px; color:#aaaaaa;"><a style="font-size: 13px; color:rgba(0, 121, 178, 0.86); font-weight: bold;"  href="/ditailsmaterial/{{ conf.pk }}">{{ conf.titlematirial}}</a></td>
+<td style="padding: 10px; color:#aaaaaa;">{{ conf.section}}</td>
+<td style="padding: 10px; color:#aaaaaa;">{{ conf.authormatirial.last_name }} {{ conf.authormatirial.first_name }}
+  {% if conf.authormatirial.patronymic != None %}
+    {{ conf.authormatirial.patronymic }}
+ {% endif %}
+</td>
+{#{% if conf.authormatirial.last_name conf.authormatirial.first_name, conf.authormatirial.patronymic) != conf.authormatirial2 %}#}
+<td style="padding: 10px; color:#aaaaaa;">{{ conf.authormatirial2}}</td>
+{#{% endif %}#}
+<td style="padding: 10px; color:#aaaaaa;">
+{% if conf.org != None %}
+    {{ conf.org}}
+ {% endif %}
+
+</td>
+<td style="padding: 10px; color:#aaaaaa;">{{ conf.published_datematerial}}</td>
+
+<td style="padding: 10px; color:#aaaaaa;">
+ {% if conf.status_id == 1 %}
+<img style="width: 18px; " src={% static "css/images/kr1.png"%}  >
+{% endif %}
+{% if conf.status_id == 4 %}
+<img style="width: 18px;" src={% static "css/images/kr2.png"%} >
+{% endif %}
+{% if conf.status_id == 3 %}
+<img style="width: 18px;" src={% static "css/images/kr3.png"%}>
+{% endif %}
+</td>
+
+</tr>
+{#    {% endif %}#}
+ {% endfor %}
+</tbody>
+</table>
+ {% endif %}
+ {% endblock content %}

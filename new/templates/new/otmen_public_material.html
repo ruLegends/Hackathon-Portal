@@ -1,0 +1,27 @@
+<script>
+    function validateForm() {
+        var x = document.forms["myForm"]["id_your_name"].value;
+
+
+        if (x == ""){
+            alert('В поле "Комментарий администратора" пусто');
+            return false;
+        }
+
+    }
+
+</script>
+{% extends 'new/base.html' %}
+
+{% block content %}
+        <h1 style="text-align: center; font-size: 24px; color: #666666;">Комментарий администратора</h1>
+    <div class="post">
+        <form name="myForm" onsubmit="return validateForm()" action=""  method="POST" class="post-form">{% csrf_token %}
+
+         <textarea style="width: 890px; margin-bottom: 20px;" cols="40" id="id_your_name" name="your_name" rows="10" placeholder="При необходимости можно оставить комментарий пользователю."></textarea>
+<div>
+            <input style="margin-left: 330px;  margin-bottom: 36px;" type="submit" class="button4" value="Отправить"/>
+</div>
+        </form>
+    </div>
+    {% endblock %}

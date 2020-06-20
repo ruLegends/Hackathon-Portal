@@ -1,0 +1,69 @@
+ {% extends 'new/base.html' %}
+{% load staticfiles %}
+    {% block content %}
+        <h1 style="text-align: center; font-size: 24px; color: #666666;">Форма учетной записи</h1>
+        <div class="item442">
+     <div style="background-color: #d5d9de; " class="post">
+{#     {{first_article}}#}
+       {% for fotoe in user4.fotos.all %}
+          {% if fotoe.user.pk == user4.pk %}
+           <img style="margin-left: 101px;" class="bb78" src="/media/{{ fotoe.foto }}" >
+{#               {% else %}#}
+{#               <img class="bb78" src={% static "css/images/chelovek.png" %} >#}
+            {% endif %}
+
+         {% endfor %}
+{% if user4.fotos.all.count == 0 %}
+     <img style="margin-left: 101px;" class="bb78" src={% static "css/images/chelovek.png" %} >
+{% endif %}
+
+         </div>
+    </div>
+        <div class="item441">
+        <div class="post" style="width: 360px;">
+          <p><label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Логин:</label>&nbsp;&nbsp;{{ user4.username}}</p>
+          <p><label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Фамилия:</label>&nbsp;&nbsp;{{ user4.last_name}}</p>
+         <p><label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Имя:</label>&nbsp;&nbsp;{{ user4.first_name}}</p>
+         <p><label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Отчество:</label>
+            {%  if user4.patronymic != None %}
+                       {{ user4.patronymic}}
+                       {% endif %}
+{#             &nbsp;&nbsp;{{ user4.patronymic}}#}
+         </p>
+            
+
+         <p><label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Почта:</label>&nbsp;
+             {%  if user4.email != None %}
+                       {{ user4.email}}
+                 {% else %}
+                     не заполнено
+                       {% endif %}
+{#             &nbsp;{{ user4.email}}#}
+         </p>
+         <p><label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Номер телефона:</label>&nbsp;
+             {%  if user4.phone != None %}
+                       {{ user4.phone}}
+                 {% else %}
+                     не заполнено
+                       {% endif %}
+{#             &nbsp;{{ user4.phone}}#}
+         </p>
+        
+        
+        <p><label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Контрольный вопрос:</label>&nbsp;
+
+{{ user4.security_question}}
+         </p>
+        <p><label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Ответ на контрольный вопрос:</label>&nbsp;
+
+{{ user4.check_answer}}
+         </p>
+       
+
+        
+        
+       
+
+        </div>
+        </div>
+    {% endblock %}

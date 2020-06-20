@@ -1,0 +1,91 @@
+{% extends 'new/base.html' %}
+{% load staticfiles %}
+
+    {% block content %}
+<script>
+ $(document).ready(function () {
+
+    var dataTableLanguage = {
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать записей _MENU_ ",
+                "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка записей...",
+                "zeroRecords": "Записи отсутствуют.",
+                "emptyTable": "В таблице отсутствуют данные",
+                "paginate": {
+                    "first": "Первая",
+                    "previous": "Предыдущая",
+                    "next": "Следующая",
+                    "last": "Последняя"
+                },
+                "aria": {
+                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                    "sortDescending": ": активировать для сортировки столбца по убыванию"
+                }
+            };
+
+            $('#example').dataTable({
+                "language": dataTableLanguage,
+                "Searchable": false
+
+            });
+    });
+  </script>
+
+<h1 style="text-align: center; font-size: 24px; color: #666666;">Список заявок</h1>
+<div>
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/kr1.png"%}  > - ожидание</p>
+
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/kr2.png"%} > - создана</p>
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/kr3.png"%}> - отклонено</p>
+
+</div>
+
+        <table id="example" >
+ <thead>
+<tr>
+<td style="padding: 10px;">Пользователь</td>
+<td style="padding: 10px;">Отрасль науки</td>
+<td style="padding: 10px;">Организация</td>
+<td style="padding: 10px;">Тема конференции</td>
+<td style="padding: 10px;">Статус конференции</td>
+<td></td>
+</tr>
+</thead>
+<tbody>
+ {% for contact in contacts %}
+<tr style="background: white;">
+<td style="padding: 10px; color:#aaaaaa;">{{ contact.login_user.last_name}}  {{ contact.login_user.first_name}}
+    {% if contact.login_user.patronymic != None  %}
+    {{ contact.login_user.patronymic}}
+  {% endif %}
+</td>
+<td style="padding: 10px; color:#aaaaaa;">{{ contact.branch_science}}</td>
+<td style="padding: 10px; color:#aaaaaa;">{{ contact.org}}</td>
+<td style="padding: 10px;"><a style="font-weight: bold; color:#0079b2;" href="{% url 'contact_ditails' pk=contact.pk %}">{{ contact.nameconfer }}</a></td>
+<td style="padding: 10px; color:#aaaaaa; ">
+{% if contact.status_id == 1 %}
+<img style="width: 22px; margin-left: 31px;" title="Ожидание" src={% static "css/images/kr1.png"%}  >
+{% endif %}
+{% if contact.status_id == 2 %}
+<img style="width: 22px; margin-left: 31px;" title="Создана"  src={% static "css/images/kr2.png"%} >
+{% endif %}
+{% if contact.status_id == 3 %}
+<img style="width: 22px; margin-left: 31px;" title="Отклонено" src={% static "css/images/kr3.png"%}>
+{% endif %}
+  </td>
+<td>
+ {% if contact.status_id == 2 %}
+<a style="color:#00887a;" class="button00"  href="{% url 'deletcont' pk=contact.pk %}" title="Удаление заявки" onclick = "return confirm('Вы уверены, что хотите удалить заявку??');" ></a>
+{% endif %}
+</td>
+</tr>
+ {% endfor %}
+ </tbody>
+</table>
+ {% endblock content %}
+

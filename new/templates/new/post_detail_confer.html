@@ -1,0 +1,163 @@
+ {% extends 'new/base.html' %}
+{% load staticfiles %}
+
+    {% block content %}
+<script>
+ $(document).ready(function () {
+
+   $(function() {
+
+    $('#tabs').tabs();
+    $('button').button();
+
+
+});
+$( function() {
+    $( "#accordion" ).accordion({
+        active: false,
+      collapsible: true
+    });
+  } );
+    });
+	
+	$(document).ready(function () {
+       $('#newz').click(function () {
+            alert('Вы не можете стать участником конференции, т.к. необходимо зарегистрироваться на сайте или войти под своим логином и паролем!');
+            event.preventDefault();
+            return false;
+        })
+    });
+  </script>
+        <div class="post">
+
+
+            {% if conference.published_dateconf %}
+                <div style="color:#aaaaaa;" class="date">
+                    {{ conference.published_dateconf }}
+                </div>
+            {% endif %}
+       {% if conference.authorconf_id == user.pk or user.pk == 1 or user.pk == 35  %}
+         <a style="margin-bottom: 36px; color: #f16300; font-weight: bold;" href="/edit_conferences/{{ conference.id }}" class="button66" title="Редактировать комнату">Редактировать</a>
+        {% endif %}
+{#         {%  if request.user.is_authenticated %}#}
+{#                <a style="margin-bottom: 36px;" href="/material_new/{{ conference.id }}" class="button67" title="Добавить идеи и предложения"></a>#}
+{#                <a style="margin-bottom: 36px;" href="/material_new/{{ conference.id }}" class="button009" title="Стать участником комнаты"></a>#}
+{#         {% endif %}#}
+          <h1 style=" color: #0079b2;">{{ conference.titleconf }}</h1>
+              <div>
+               
+            
+                 <p style="color:#aaaaaa;"><label style="color:rgba(0, 112, 163, 0.61); font-weight: bold; font-size: 20px;">Организатор комнаты:</label>&nbsp;&nbsp;  {{ conference.authorconf.last_name}}  {{ conference.authorconf.first_name}}
+                     {% if conference.authorconf.patronymic != None  %}
+                     {{ conference.authorconf.patronymic}}
+                     {% endif %}
+                 </p>
+                </div>
+
+            <p>{{ conference.textconf|linebreaksbr }}</p>
+ <p style="color:#aaaaaa;"><label style="color:rgba(0, 112, 163, 0.61); font-weight: bold; font-size: 20px;">Время проведения конференции с:</label>&nbsp;&nbsp;   {{ conference.date_launch_s }}</p>
+<p style="color:#aaaaaa; margin-top: -18px;"><label style="margin-left: 322px; color: rgba(0, 112, 163, 0.61); font-weight: bold; font-size: 20px;">по:</label>&nbsp;&nbsp;   {{ conference.date_launch_po }}</p>
+ <p style="color:#aaaaaa;"><label style="color: rgba(0, 112, 163, 0.61); font-weight: bold; font-size: 20px;">Срок подачи статей и докладов:</label>&nbsp;&nbsp;   {{ conference.srok_podacha }}</p>
+ <p style="color:#aaaaaa;"><label style="color:rgba(0, 112, 163, 0.61); font-weight: bold; font-size: 20px;">Требования к публикации:</label>&nbsp;&nbsp;   {{ conference.trebovania }}</p>
+  <p style="color:#aaaaaa;"><label style="color: rgba(0, 112, 163, 0.61); font-weight: bold; font-size: 20px;">Состав оргкомитета</label>&nbsp;</p>
+<p>{{ conference.sostav_orgkomitet|linebreaksbr }}</p>
+        </div>
+
+ <div>
+
+  <div id="tabs">
+        <ul>
+            <li><a href="#tab1">Материалы конференции</a>
+            <li><a href="#tab2">Участники конференции</a>
+
+        </ul>
+   <div id="tab1">
+{#{% if dd == '1' %}#}
+{#     <a style="margin-bottom: 36px; color: #f16300;" href="/material_new/{{ conference.id }}" class="button67" title="Добавить материал для конференции">Добавить материал</a>#}
+{#    {% else %}#}
+  <div style=" color: #f56400;margin: 3px;border-top-left-radius: 20px; border-top-right-radius: 0; border-bottom-right-radius: 30px; border-bottom-left-radius: 0; border: 1px solid #f16200;padding: 8px;  padding-left: 90px;">
+<p >Для того, что бы добавить материал, необходимо стать участником конференции</p>
+</div>
+ {%  if request.user.is_authenticated %}
+  <a style="margin-bottom: 36px; color: #f16300;" href="/uchastie_confer/{{ conference.id }}" class="button009" title="Стать участником конференции">Стать участником</a>
+   {% else %}
+ <a style="margin-bottom: 36px; color: #f16300;" href="" class="button009" id="newz" title="Стать участником конференции">Стать участником</a>
+  {% endif %}
+{#{% endif %}#}
+{#  {% for ii5 in conference.children2.all %}#}
+{# {% if ii5.status_user_id == 2 and ii5.user_id == request.user.pk %}#}
+{#  <a style="margin-bottom: 36px; color: #f16300;" href="/material_new/{{ conference.id }}" class="button67" title="Добавить материал для конференции">Добавить материал</a>#}
+{##}
+{#    {% endif %}#}
+{##}
+{# {% endfor %}#}
+
+
+{# {% for ii5 in conference.children2.all %}#}
+{# {% if ii5.user_id == request.user.pk %}#}
+{#     <div style=" color: #f56400;margin: 3px;border-top-left-radius: 20px; border-top-right-radius: 0; border-bottom-right-radius: 30px; border-bottom-left-radius: 0; border: 1px solid #f16200;padding: 8px;  padding-left: 90px;">#}
+{#<p >Для того, что бы добавить материал, необходимо стать участником конференции</p>#}
+{#</div>#}
+{#{{ conference.children2.all|length }}#}
+{#    {% endif %}#}
+{# {% endfor %}#}
+
+
+
+<p style="     margin-bottom: 48px;  text-align: center;font-weight: bold;color:#aaaaaa;text-decoration: underline;">Секции конференции</p>
+{#<div id="accordion">#}
+{#{% if conference.conference_material_set.all.count == 0 %}#}
+{#<p style="text-align: center;color: #aaaaaa;">Материалов для конференции нет.</p>#}
+{##}
+{#{% else %}#}
+{% for ii in conference.children.all %}
+
+{#    <p style="color:#bb8817;"><label style="color: rgba(0, 136, 122, 0.54); font-weight: bold;">Секция:</label>&nbsp;&nbsp;   {{ ii.section_name }}</p>#}
+{#<h3>{{ ii.section_name }} </h3>#}
+<h1> <img class="bb3" src={% static "css/images/library.png" %} ><a style=" font-size: 16px; color:rgba(0, 121, 178, 0.86);"  href="{% url 'step_backward' pk=ii.pk %}">{{ ii.section_name }}</a></h1>
+{#  <div>#}
+{#    {% if ii.children.all.count == 0 %}#}
+{#      <p style="color: #aaaaaa;">Материалов для секции нет.</p>#}
+{#     {% else %}#}
+{#    {% for ii2 in ii.children.all %}#}
+{#{% if ii2.status_id == 4 %}#}
+{#     <h1> <img class="bb3" src={% static "css/images/documents.png" %} ><a style=" font-size: 16px; color:rgba(0, 121, 178, 0.86);"  href="{% url 'opisanie_material' pk=ii2.pk %}">{{ ii2.titlematirial }}</a></h1>#}
+{#        {% endif %}#}
+{#     {% endfor %}#}
+{#    {% endif %}#}
+{#</div>#}
+     {% endfor %}
+
+{#{% endif %}#}
+{#</div>#}
+</div>
+ <div id="tab2">
+{#  </div>#}
+{# <div class="item445">#}
+{%  if request.user.is_authenticated %}
+{# {% for ii5 in conference.children2.all %}#}
+{# {% if ii5.user_id != request.user.pk %}#}
+{#     <a style="margin-bottom: 36px; color: #f16300;" href="/uchastie_confer/{{ conference.id }}" class="button009" title="Стать участником конференции">Стать участником</a>#}
+{#  {% endif %}#}
+{#  {% endfor %}#}
+         {% endif %}
+<p style=" text-align: center;font-weight: bold;color:#aaaaaa;text-decoration: underline;">Участники конференции</p>
+{% for ii5 in conference.children2.all %}
+
+ {% if ii5.status_user_id == 2 %}
+ <p style="margin: 10px;">
+{#     {{ ii5.user }}#}
+ {{ ii5.user.last_name}}  {{ ii5.user.first_name}}
+                     {% if ii5.user.patronymic != None %}
+                     {{ ii5.user.patronymic}}
+                     {% endif %}
+ ({{ii5.user.organization}})
+ </p>
+    {% endif %}
+ {% endfor %}
+{# </div>#}
+{# </div>#}
+ </div>
+  </div>
+</div>
+    {% endblock %}

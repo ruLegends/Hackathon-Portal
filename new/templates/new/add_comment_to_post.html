@@ -1,0 +1,25 @@
+{% extends 'new/base.html' %}
+{% block content %}
+ <script>
+    function validateForm() {
+        var x = document.forms["myForm"]["id_text"].value;
+        if (x == "") {
+            alert('Комментарий пуст! Заполните поле "Комментарий"');
+            return false;
+        }
+    }
+    </script>
+    <div id="frt" style="width: 301px; margin-left: 31%;">
+  <h1 style="text-align: center; font-size: 24px; color: #666666;">Новый комментарий</h1>
+     <form name="myForm" onsubmit="return validateForm()"  action=""  method="POST" class="post-form">{% csrf_token %}
+         <label class="mystyl2" for="id_last_name1">Комментарий</label>
+             <p class="mystyl"> {{ form.text }}</p>
+ <p class="mystyl"> {{ form.fotourl.as_hidden}}</p>
+ <p class="mystyl"> {{ form.post.as_hidden }}</p>
+
+ <p class="mystyl"> {{ form.author.as_hidden }}</p>
+
+       <input style="margin-left: 3px;/* margin-bottom: 36px; */width: 296px;height: 38px;margin-top: 19px;" type="submit" value="Оставить комментарий"  class="button4">
+    </form>
+    </div>
+{% endblock %}

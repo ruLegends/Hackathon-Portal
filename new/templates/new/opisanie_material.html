@@ -1,0 +1,225 @@
+{% extends 'new/base.html' %}
+{% load staticfiles %}
+
+    {% block content %}
+<script>
+ $(document).ready(function () {
+       $('#newz').click(function () {
+            alert('Вы не можете оставить комментарий, т.к. необходимо зарегистрироваться на сайте или войти под своим логином и паролем!');
+            event.preventDefault();
+            return false;
+        })
+});
+
+var show;
+function hidetxt(type){
+ param=document.getElementById(type);
+ if(param.style.display == "none") {
+ if(show) show.style.display = "none";
+ param.style.display = "block";
+ show = param;
+ }else param.style.display = "none"
+}
+</script>
+           <h1 style="text-align: center; font-size: 24px; color: #666666;">Материал для комнаты</h1>
+
+        <div class="post">
+      {% if op.otmenpublic == True %}
+        {% if op.authormatirial_id == user.pk or user.pk == 1 or user.pk == 35 %}
+        <a style="margin-bottom: 36px; color: #f16300; font-weight: bold;" href="" onclick = "return confirm('Сайт и страница находится в разработке');"  class="button66" title="Редактировать материал">Редактировать</a>
+        {% endif %}
+        {% endif %}
+                <div>
+                    <p> <label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Автор:</label>&nbsp;
+                        {{ op.authormatirial2}}
+                    </p>
+
+                </div>
+               
+                <div>
+                    <p> <label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Заголовок:</label>&nbsp;&nbsp;{{ op.titlematirial }}</p>
+                </div>
+
+              
+            <div>
+            <p><label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Комната:</label>&nbsp;&nbsp;{{ op.conference}}</p>
+        </div>
+      
+
+<div style="color: black; display:none;" id="div1">
+ {% if op.annotation_rus == None %}
+Нет аннотации
+{% else %}
+{{ op.annotation_rus }}
+{% endif %}
+</div>
+</div>
+<div>
+
+<div style="color: black; display:none;" id="div2">
+{% if op.annotation_usa == None %}
+Нет аннотации
+{% else %}
+{{ op.annotation_usa }}
+{% endif %}
+</div>
+</div>
+<div>
+
+<div style="color: black; display:none;" id="div3">
+
+{% if op.keywords_rus == None %}
+Нет ключевых слов
+{% else %}
+{{ op.keywords_rus }}
+{% endif %}
+</div>
+</div>
+<div>
+
+<div style="color: black; display:none;" id="div4">
+
+{% if op.keywords_usa == None %}
+Нет ключевых слов
+{% else %}
+{{ op.keywords_usa }}
+{% endif %}
+</div>
+</div>
+</div>
+
+
+                <div>
+                {% if op.otmenpublic == True %}
+                 <p><label style="color:rgba(0, 121, 178, 0.86); font-weight: bold; margin-left: 43%;">Текст материала</label>&nbsp;&nbsp;</p>
+                {% endif %}
+
+<div style="    margin-left: 22%;">
+{% if op.otmenpublic == False %}
+ <p style="color: #f27721; text-align: center; font-weight: bold;">Материал был удален.</p>
+{% else %}
+{% if '.pdf' in op.file_obj.name %}
+<iframe src="/media/{{ op.file_obj }}" width="800" height="900"></iframe>
+{% else %}
+<iframe src="/media/{{ op.file_obj|cut:'.docx' }}.pdf" width="800" height="900"></iframe>
+{% endif %}
+{% endif %}
+</div>
+                </div>
+
+        </div>
+<div id="comen">
+<h2 style="text-align: center;/* margin: 43px; */padding: 15px;">Комментарии к материалу</h2>
+{% for comment in op.comments.all  %}
+
+{%  if comment.parent_id == null %}
+    <div  class="comment">
+    {% if comment.fotourl == null %}
+  <img class="rr" src={% static "css/images/foto7.png" %} >
+   {% else %}
+    <img class="rr" src="/media/{{ comment.fotourl }}" >
+        {% endif %}
+        <div class="date">
+
+            {{ comment.author.last_name }} {{ comment.author.first_name }}
+            {% if comment.author.patronymic != None %}
+            {{ comment.author.patronymic }}
+            {% endif %}
+            ({{ comment.created_date }})
+
+        {% if user.pk == 1 or user.pk == 35  %}
+
+              <a style="color:#00887a;" class="buttonblocd"  href="{% url 'udalen' pk=comment.pk %}" title="Удалить"  onclick = "return confirm('Вы уверены, что хотите удалить этот комментарий и все ответы относящиеся к нему?');"></a>
+
+            {% endif %}
+        </div>
+
+
+        <p>{{ comment.text|linebreaks }}</p>
+
+<div >
+<a href="{% url 'otvet_na_coment' pk=comment.pk %}" class="buttoncomen668" style="color:#f27721;" title="Ответить на комментарий">ОТВЕТИТЬ</a>
+</div>
+      </div>
+ {% for comment2 in comment.children.all %}
+    {%  if comment2.parent_id == comment.pk %}
+         <div style="margin-left: 60px;"  class="comment2">
+         {% if comment2.fotourl == null %}
+  <img class="rr"  src={% static "css/images/foto7.png" %} >
+   {% else %}
+    <img class="rr" src="/media/{{ comment2.fotourl }}" >
+        {% endif %}
+        <div class="date">
+
+            {{ comment2.author.last_name }} {{ comment2.author.first_name }}
+           {% if comment2.author.patronymic != None %}
+            {{ comment2.author.patronymic }}
+            {% endif %}
+            ({{ comment2.created_date }})
+
+          {% if  user.pk == 1 or user.pk == 35  %}
+
+              <a style="color:#00887a;" class="buttonblocd"  href="{% url 'udalen' pk=comment2.pk %}" title="Удалить"  onclick = "return confirm('Вы уверены, что хотите удалить этот комментарий и все ответы относящиеся к нему?');"></a>
+         {% endif %}
+        </div>
+
+        <p>{{ comment2.text|linebreaks }}</p>
+
+<div >
+<a href="{% url 'otvet_na_coment' pk=comment2.pk %}" class="buttoncomen668" style="color:#f27721;" title="Ответить на комментарий">ОТВЕТИТЬ</a>
+</div>
+      </div>
+    {% endif %}
+     {% for comment3 in comment2.children.all %}
+    {%  if comment3.parent_id == comment2.pk %}
+         <div style="margin-left: 100px;"  class="comment3">
+         {% if comment3.fotourl == null %}
+  <img class="rr" src={% static "css/images/foto7.png" %} >
+   {% else %}
+    <img class="rr" src="/media/{{ comment3.fotourl }}" >
+        {% endif %}
+        <div class="date">
+
+            {{ comment3.author.last_name }} {{ comment3.author.first_name }}
+            {% if comment3.author.patronymic != None %}
+            {{ comment3.author.patronymic }}
+            {% endif %}
+            ({{ comment3.created_date }})
+
+          {% if  user.pk == 1 or user.pk == 35  %}
+
+               <a style="color:#00887a;" class="buttonblocd"  href="{% url 'udalen' pk=comment3.pk %}" title="Удалить"  onclick = "return confirm('Вы уверены, что хотите удалить этот комментарий?');"></a>
+
+      {% endif %}
+        </div>
+
+        <p>{{ comment3.text|linebreaks }}</p>
+
+      </div>
+
+    {% endif %}
+{% endfor %}
+{% endfor %}
+{% endif %}
+
+{% empty %}
+
+    <p style="text-align: center; color: rgb(204, 168, 14);margin-top: -20px;font-size: 14px;">Здесь еще нет комментариев</p>
+{% endfor %}
+
+<div>
+  Всего комментариев к материалу: {{ op.comments.count }}
+</div>
+{%  if request.user.is_authenticated %}
+{% if op.otmenpublic == True %}
+<a style="margin: 20px;  margin-left: 43%" class="button4" href="{% url 'add_comment_to_post' pk=op.pk %}">Оставить комментарий</a>
+{% endif %}
+{% endif %}
+{%  if not request.user.is_authenticated %}
+
+<button style="margin: 20px;  margin-left: 43%;" id="newz" type="button" class="button455">Оставить комментарий</button>
+
+{% endif %}
+</div>
+
+{% endblock %}

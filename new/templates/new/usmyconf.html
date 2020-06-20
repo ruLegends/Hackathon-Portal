@@ -1,0 +1,98 @@
+{% extends 'new/base.html' %}
+{% load staticfiles %}
+    {% block content %}
+<script>
+ $(document).ready(function () {
+
+    var dataTableLanguage = {
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать записей _MENU_ ",
+                "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка записей...",
+                "zeroRecords": "Записи отсутствуют.",
+                "emptyTable": "В таблице отсутствуют данные",
+                "paginate": {
+                    "first": "Первая",
+                    "previous": "Предыдущая",
+                    "next": "Следующая",
+                    "last": "Последняя"
+                },
+                "aria": {
+                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                    "sortDescending": ": активировать для сортировки столбца по убыванию"
+                }
+            };
+
+            $('#example').dataTable({
+                "language": dataTableLanguage,
+                "Searchable": false
+
+            });
+    });
+  </script>
+<h1 style="text-align: center; font-size: 24px; color: #666666;">Участники конференции "{{ conference.titleconf}}"</h1>
+<div>
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/kr1.png"%}  > - ожидание</p>
+
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/kr2.png"%} > - активен</p>
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/kr3.png"%}> - заблокирован</p>
+
+</div>
+
+        <table id="example">
+<thead>
+<tr>
+
+<td style="padding: 10px;">Пользователь</td>
+<td style="padding: 10px;">Дата заявки</td>
+{#<td style="padding: 10px;">Комментарий пользователя</td>#}
+<td style="padding: 10px;">Роль пользователя</td>
+
+<td style="padding: 10px;">Статус</td>
+<td> </td>
+<td> </td>
+</tr>
+</thead>
+<tbody>
+{% for conf in conference.children2.all %}
+<tr style="background: white;">
+<td style="padding: 10px; color:#aaaaaa;">{{ conf.user.last_name }} {{ conf.user.first_name }}
+  {% if conf.user.patronymic != None %}
+    {{ conf.user.patronymic }}
+ {% endif %}
+</td>
+<td style="padding: 10px; color:#aaaaaa;">{{ conf.published_us_confr}}</td>
+{#<td style="padding: 10px; color:#aaaaaa;">{{ conf.message}}</td>#}
+<td style="padding: 10px; color:#aaaaaa;">{{ conf.status_role}}</td>
+
+<td style="padding: 10px; color:#aaaaaa;">
+ {% if conf.status_user_id == 1 %}
+<img style="width: 18px; " src={% static "css/images/kr1.png"%}  >
+{% endif %}
+{% if conf.status_user_id == 2 %}
+<img style="width: 18px; " src={% static "css/images/kr2.png"%} >
+{% endif %}
+{% if conf.status_user_id == 3 %}
+<img style="width: 18px; " src={% static "css/images/kr3.png"%}>
+{% endif %}
+</td>
+<td>
+{% if conf.status_user_id == 1 or conf.status_user_id == 3 %}
+<a style="" href="/smena_status/{{ conf.pk}}" class="button007" title="Сделать участником конференции"></a>
+{% endif %}
+</td>
+<td>
+{% if conf.status_user_id == 2 or conf.status_user_id == 1 %}
+<a style="" href="/lock_status/{{ conf.pk}}" class="button006" title="Заблокировать пользователя"></a>
+{% endif %}
+</td>
+</tr>
+ {% endfor %}
+</tbody>
+</table>
+
+ {% endblock content %}

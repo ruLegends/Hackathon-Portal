@@ -1,0 +1,34 @@
+<script>
+{#   function validateForm() {#}
+{#        var x = document.forms["myForm"]["id_your_name"].value;#}
+{##}
+{##}
+{#      if (x == ""){#}
+{#            alert('В поле "Комментарий к заявке" пуст');#}
+{#           return false;#}
+{#       }#}
+{##}
+{#   }#}
+
+</script>
+{% extends 'new/base.html' %}
+
+{% block content %}
+        <h1 style="text-align: center; font-size: 24px; color: #666666;">Заявка на участие в конференции</h1>
+    <div class="post">
+    {% for message in messages %}
+<div style="color: #cd0a0a;font-size: 14px;" class="message {{ message.tags }}">
+    {{ message }}
+</div>
+        {% endfor %}
+        <form name="myForm" onsubmit="return validateForm()" action=""  method="POST" class="post-form">{% csrf_token %}
+<p style="text-align: center;">Стать участником конференции?</p>
+{#         <textarea style="width: 890px; margin-bottom: 20px;" cols="40" id="id_your_name" name="your_name" rows="10" placeholder="Комментарий к заявке."></textarea>#}
+<div>
+    {{ form.user.as_hidden }}
+    {{ form.confer.as_hidden }}
+            <input style="margin-left: 386px;  margin-bottom: 36px;" type="submit" class="button4" value="Подтвердить"/>
+</div>
+        </form>
+    </div>
+    {% endblock %}

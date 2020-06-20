@@ -1,0 +1,18 @@
+ {% extends 'new/base.html' %}
+
+    {% block content %}
+<form class="..." method="POST" id="..." enctype="multipart/form-data">
+    {% csrf_token %}
+    <h1 style="text-align: center; font-size: 24px; color: #666666;">Загрузка файла</h1>
+    <div class="post">
+
+        <div style="margin-bottom: 15px;margin-left: 35%;">
+       {{form.file_obj}}
+
+</div>
+    <div class="...">
+        <input style=" margin-bottom: 36px;  margin-left: 315px;" type="submit" class="button4" value="Загрузить файл"/>
+    </div>
+          </div>
+</form>
+{% endblock %}

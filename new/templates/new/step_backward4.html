@@ -1,0 +1,26 @@
+{% extends 'new/base.html' %}
+{% load staticfiles %}
+
+    {% block content %}
+
+
+     {% for material in materials %}
+ {% if forloop.first %}
+
+<h1 style="text-align: center; font-size: 24px; color: #666666;">Список материалов для конференции "{{ material.conference }}" из секции {{ material.section }}</h1>
+{% endif %}
+
+ {% endfor %}
+
+        <div class="post">
+{% if materials.all.count == 0 %}
+        <p style="text-align: center;color: #aaaaaa;">Материалов в секции нет.</p>
+    {% endif %}
+
+        {% for material in materials %}
+
+<h1> <img class="bb3" src={% static "css/images/documents.png" %} ><a style=" font-size: 16px; color:rgba(0, 121, 178, 0.86);"  href="{% url 'opisanie_material' pk=material.pk %}">{{ material.titlematirial }}</a></h1>
+
+        {% endfor %}
+        </div>
+ {% endblock content %}

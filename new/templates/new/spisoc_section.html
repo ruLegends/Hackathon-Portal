@@ -1,0 +1,80 @@
+{% extends 'new/base.html' %}
+
+    {% block content %}
+<script>
+ $(document).ready(function () {
+
+    var dataTableLanguage = {
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать записей _MENU_ ",
+                "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка записей...",
+                "zeroRecords": "Записи отсутствуют.",
+                "emptyTable": "В таблице отсутствуют данные",
+                "paginate": {
+                    "first": "Первая",
+                    "previous": "Предыдущая",
+                    "next": "Следующая",
+                    "last": "Последняя"
+                },
+                "aria": {
+                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                    "sortDescending": ": активировать для сортировки столбца по убыванию"
+                }
+            };
+
+            $('#example').dataTable({
+                "language": dataTableLanguage,
+                "Searchable": false
+
+            });
+    });
+  </script>
+<h1 style="text-align: center; font-size: 24px; color: #666666;">Список секций для конференции</h1>
+ {% for message in messages %}
+<div style="color: #cd0a0a;font-size: 14px; text-align: center; margin-bottom: 20px;" class="message {{ message.tags }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% for section in sections %}
+ {% if forloop.first %}
+<a style="margin-left: 382px; margin-bottom: 36px;" href="{% url 'section_dob' pk=section.confer_id %}" class="button4">Добавить секцию</a>
+{% endif %}
+
+ {% endfor %}
+{#   <a style="margin-left: 331px; margin-bottom: 36px;" href="{% url 'section_dob' pk=con.pk %}" class="button4">Добавить секцию</a>#}
+
+        <table id="example">
+<thead>
+<tr>
+<td style="padding: 10px;">Секции</td>
+<td style="padding: 10px;">Редактировать</td>
+<td style="padding: 10px;">Удаление</td>
+</tr>
+</thead>
+<tbody>
+ {% for section in sections %}
+
+<tr style="background: white;">
+<td style="padding: 10px; color:#aaaaaa;">{{ section.section_name}}</td>
+<td style=""> <a style="margin-right: 44%; " href="/redak_secti/{{ section.id }}" class="button661" title="Редактировать секцию"></a></td>
+
+<td style="">
+{% if sections.count == 1 %}
+
+{% else %}
+<a style="color:#00887a; margin-left: 40%;" class="button00"  href="{% url 'del_sectionfull' pk=section.pk %}" title="Удаление секции" onclick = "return confirm('Вы уверены, что хотите удалить эту секцию??');" ></a>
+{% endif %}
+</td>
+
+</tr>
+ {% endfor %}
+</tbody>
+</table>
+
+ {% endblock content %}
+

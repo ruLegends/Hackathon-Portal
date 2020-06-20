@@ -1,0 +1,38 @@
+{% extends 'new/base.html' %}
+
+    {% block content %}
+ <h1 style="text-align: center; font-size: 24px; color: #666666;">Авторизация</h1>
+
+{% if user.is_authenticated %}
+Что такое, {{ user.username }}? Вы же уже авторизорваны.
+Впрочем, всегда можно <a href="{% url auth_logout %}">выйти</a>.<br/><br/>
+{% else %}
+
+{% if form.non_field_errors %}
+{{ form.non_field_errors }}
+{% endif %}
+<div id="frt" style="width: 301px; margin-left: 31%;">
+<div>
+<form method="post" action="">
+<dl class="register">
+{% for field in form %}
+   <div style="margin-bottom: 15px;">{{ field.label_tag }}
+   {{ field }}
+    {% if field.help_text %}<div class="clearfix">{{ field.help_text }}</div>{% endif %}
+    {% if field.errors %}<div class="myerrors clearfix">{{ field.errors }}</div>{% endif %}
+    </div>
+{% endfor %}
+{% csrf_token %}
+</dl>
+<input style="margin-left: 3px;/* margin-bottom: 36px; */width: 296px;height: 38px;margin-top: 19px;" type="submit" value="Вход"  class="button4">
+</form>
+</div>
+    </div>
+<script type="text/javascript">
+document.getElementById('id_username').focus()
+</script>
+
+ <br/><br/>
+
+   {% endif %}
+    {% endblock content %}

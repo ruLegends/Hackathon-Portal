@@ -1,0 +1,134 @@
+
+{% extends 'new/base.html' %}
+
+{% block content %}
+<script>
+  function validateForm() {
+
+        var c = document.forms["myForm"]["id_password"].value;
+        var v = document.forms["myForm"]["id_password3"].value;
+        var v2 = document.forms["myForm"]["id_username"].value;
+        var v3 = document.forms["myForm"]["id_check_answer"].value;
+
+        var iif = /(?=.*[0-9])(?=.*[A-Za-zА-Яа-яЁё])[0-9A-Za-zА-Яа-яЁё]{8,}/g
+
+       if (c == "" & v == "" & v3 == "") {
+            alert('Необходимо заполнить поля "Новый пароль", "Повторите пароль" и "Ответ на контрольный вопрос"');
+            return false;
+        }
+
+       if (v3 == "") {
+           alert('Необходимо заполнить поле "Ответ на контрольный вопрос"');
+           return false;
+       }
+
+        if (c == "" & v != "") {
+            alert('Необходимо заполнить поле "Новый пароль"');
+            return false;
+        }
+        if (c != "" & v == "") {
+            alert('Необходимо заполнить поле "Повторите пароль"');
+            return false;
+        }
+
+        if (c != v ) {
+            alert('Поля "Новый пароль" и "Повторите пароль" не совпали');
+            return false;
+        }
+        if (c == v2 ) {
+            alert('Пароль не должен совпадать с Логином');
+            return false;
+        }
+        if (c == v2 & c == v) {
+            alert('Пароль не должен совпадать с Логином');
+            return false;
+        }
+        if (c.length<8 ) {
+            alert(' Пароль должен содержать как минимум 8 символов');
+            return false;
+        }
+
+        if (document.getElementById('id_password').value.search(iif)!=0) {
+            alert('Пароль должен содержать как минимум 8 символов (буквы и цифры)');
+            return false;
+        }
+
+
+
+
+    }
+ $(document).ready(function () {
+   $("#id_username").prop('readonly', true);
+   $("#id_security_question").prop('readonly', true);
+ });
+</script>
+<style>
+    #id_username, #id_security_question{
+    color: rgba(102, 102, 102, 0.63);
+   }
+  </style>
+        <h1 style="text-align: center; font-size: 24px; color: #666666;">Восстановление пароля (Шаг № 2)</h1>
+    <div class="post" style="width: 301px; margin-left: 31%;">
+    {% for message in messages %}
+<div style="color: #cd0a0a;font-size: 14px;" class="message {{ message.tags }}">
+    {{ message }}
+</div>
+        {% endfor %}
+<form name="myForm" onsubmit="return validateForm()"  action=""  method="POST" class="post-form">{% csrf_token %}
+
+<div>
+    {#       {{ form.as_p }}#}
+{#          <label class="mystyl2" for="id_last_name1">Имя</label>#}
+    <label class="mystyl2" for="id_last_name1">Контрольный вопрос:</label>
+     <p class="mystyl">   {{ form.security_question }}</p>
+    <label class="mystyl2" for="id_last_name1">Ответ на контрольный вопрос:</label>
+
+         <p class="mystyl">   {{ form.check_answer}}</p>
+     <p style="font-size: 13px;/* margin-left: 199px; */color: #b99707; margin-bottom: 16px; margin-top: -14px;">Обязательное поле</p>
+     <label class="mystyl2" for="id_last_name1">Логин:</label>
+         <p class="mystyl"> {{ form.username }}</p>
+        <hr>
+         <label class="mystyl2" for="id_first_name1">Новый пароль:</label>
+         <p class="mystyl">  {{ form.password }}</p>
+         <p style="font-size: 13px;/* margin-left: 199px; */color: #b99707; margin-bottom: 16px; margin-top: -14px;">Обязательное поле. Пароль должен содержать как минимум 8 символов (буквы и цифры). Пароль не должен совпадать с Логином.</p>
+
+           <label class="mystyl2" for="id_patronymic1">Подтверждение пароля:</label>
+             <p class="mystyl">  <input class="mystyl" type="text" name="id_password3" id="id_password3" /></p>
+            <p style="font-size: 13px;/* margin-left: 199px; */color: #b99707; margin-bottom: 16px; margin-top: -14px;">Для подтверждения введите, пожалуйста, пароль ещё раз.</p>
+          <p class="mystyl">  {{ form.password2.as_hidden }}</p>
+
+{#         <label class="mystyl2" for="id_last_name1">Фамилия</label>#}
+          <p class="mystyl"> {{ form.last_name.as_hidden }}</p>
+{#           <label class="mystyl2" for="id_first_name1">Имя</label>#}
+         <p class="mystyl">  {{ form.first_name.as_hidden }}</p>
+{#           <label class="mystyl2" for="id_patronymic1">Отчество</label>#}
+          <p class="mystyl">  {{ form.patronymic.as_hidden }}</p>
+{#           <label class="mystyl2" for="id_pol1">Пол</label>#}
+          <p class="mystyl">  {{ form.pol.as_hidden }}</p>
+{#           <label class="mystyl2" for="id_data_birth1">Год рождения</label>#}
+         <p class="mystyl">  {{ form.data_birth.as_hidden }}</p>
+{#           <label class="mystyl2" for="id_country1">Страна</label>#}
+          <p class="mystyl">  {{ form.country.as_hidden }}</p>
+{#           <label class="mystyl2" for="id_address1">Адрес</label>#}
+          <p class="mystyl">   {{ form.address.as_hidden }}</p>
+{#            <label class="mystyl2" for="id_phone1">Номер телефона</label>#}
+         <p class="mystyl">  {{ form.phone.as_hidden }}</p>
+{#            <label class="mystyl2" for="id_organization1">Организация</label>#}
+           <p class="mystyl">  {{ form.organization.as_hidden }}</p>
+{#            <label class="mystyl2" for="id_position1">Должность</label>#}
+          <p class="mystyl">  {{ form.position.as_hidden }}</p>
+{#            <label class="mystyl2" for="id_academemic_degree1">Ученая степень</label>#}
+         <p class="mystyl">   {{ form.academemic_degree.as_hidden }}</p>
+{#            <label class="mystyl2" for="id_uchenoe_zvanie1">Ученое звание</label>#}
+         <p class="mystyl">   {{ form.uchenoe_zvanie.as_hidden}}</p>
+{#           <label class="mystyl2" for="id_description1">Описание профиля</label>#}
+          <p class="mystyl">   {{ form.description.as_hidden }}</p>
+{#            <label class="mystyl2" for="id_rinc_author1">РИНЦ author_id</label>#}
+          <p class="mystyl">  {{ form.rinc_author.as_hidden}}</p>
+
+
+           <input style=" margin-bottom: 36px;  margin-left: 77px;" type="submit" class="button4" value="Сохранить"/>
+</div>
+</form>
+    </div>
+    {% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'new/base.html' %}
+{% load staticfiles %}
+    {% block content %}
+<script>
+ $(document).ready(function () {
+
+    var dataTableLanguage = {
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать записей _MENU_ ",
+                "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка записей...",
+                "zeroRecords": "Записи отсутствуют.",
+                "emptyTable": "В таблице отсутствуют данные",
+                "paginate": {
+                    "first": "Первая",
+                    "previous": "Предыдущая",
+                    "next": "Следующая",
+                    "last": "Последняя"
+                },
+                "aria": {
+                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                    "sortDescending": ": активировать для сортировки столбца по убыванию"
+                }
+            };
+
+            $('#example').dataTable({
+                "language": dataTableLanguage,
+                "Searchable": false
+
+            });
+    });
+  </script>
+<h1 style="text-align: center; font-size: 24px; color: #666666;">Список всех комнат</h1>
+
+<div>
+<p style="font-size: 15px;"><img style="width: 11px;" src={% static "css/images/eye2.png"%}  >  - комната скрыта</p>
+
+</div>
+        <table id="example">
+<thead>
+<tr>
+<td style="padding: 10px;"></td>
+<td style="padding: 10px;">Комната</td>
+
+<td style="padding: 10px;">Автор</td>
+<td style="padding: 10px;">Дата создания комнаты</td>
+<td style="padding: 10px;">Срок подачи идей и предложений</td>
+<td style="padding: 10px;">Время проведения</td>
+<td style="padding: 10px;">Редактировать</td>
+<td style="padding: 10px;">Участники</td>
+<td style="padding: 10px;">Список идей и предложений </td>
+
+{#<td> </td>#}
+</tr>
+</thead>
+<tbody>
+{#{% if user.pk == 1 or user.pk == 35 %}#}
+{##}
+ {% for conference in conferences %}
+<tr style="background: white;  font-size: 12px;">
+<td style="padding: 10px; color:#aaaaaa;">
+{% if conference.otmenpublic == True %}
+{#<img style="width: 18px; " src={% static "css/images/eyet.png"%}  >#}
+{% endif %}
+{% if conference.otmenpublic == False %}
+<img style="width: 18px;" src={% static "css/images/eye2.png"%} >
+{% endif %}
+</td>
+<td style="padding: 10px; color:#aaaaaa;">{{ conference.titleconf}}</td>
+{#<td style="padding: 10px; color:#aaaaaa;">{{ conference.branch_science}}</td>#}
+
+<td style="padding: 10px; color:#aaaaaa;">{{ conference.authorconf.last_name}} {{ conference.authorconf.first_name}}
+    {% if conference.authorconf.patronymic != None %}
+                     {{ conference.authorconf.patronymic}}
+                    {% endif %}
+ <td style="padding: 10px; color:#aaaaaa;">{{ conference.published_dateconf}}</td>
+<td style="padding: 10px; color:#aaaaaa;">{{ conference.srok_podacha}}</td>
+<td style="padding: 10px; color:#aaaaaa;">{{ conference.date_launch_s}} - {{ conference.date_launch_po}}</td>
+<td style=""> <a style=" " href="" class="button661" onclick = "return confirm('Сайт и страница находится в разработке');" title="Редактировать конференцию"></a></td>
+<td><a style="" href="/us_conf_full/{{ conference.pk }}" class="button0091" title="Участники конференции"></a></td>
+<td style="padding: 10px; color:#aaaaaa;"><a style="color:#00887a;" class="button77"  href="{% url 'spisok_material_conferents' pk=conference.pk %}" title="Список материалов для конференции" ></a></td>
+{#<td>#}
+{#<a style="color:#00887a;" class="button00"  href="{% url 'sterta' pk=conference.pk %}" title="Удаление конференции и материалов относящихся к ней" onclick = "return confirm('Вы уверены, что хотите удалить эту конференцию и все материалы относящиеся к ней??');" ></a>#}
+{#</td>#}
+
+</tr>
+ {% endfor %}
+{#   {% else %}#}
+{##}
+{##}
+{##}
+{#{% endif %}#}
+
+</tbody>
+</table>
+{% endblock content %}
+

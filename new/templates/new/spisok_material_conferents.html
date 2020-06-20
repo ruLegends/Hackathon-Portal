@@ -1,0 +1,121 @@
+{% extends 'new/base.html' %}
+{% load staticfiles %}
+    {% block content %}
+<script>
+ $(document).ready(function () {
+
+    var dataTableLanguage = {
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать записей _MENU_ ",
+                "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка записей...",
+                "zeroRecords": "Записи отсутствуют.",
+                "emptyTable": "В таблице отсутствуют данные",
+                "paginate": {
+                    "first": "Первая",
+                    "previous": "Предыдущая",
+                    "next": "Следующая",
+                    "last": "Последняя"
+                },
+                "aria": {
+                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                    "sortDescending": ": активировать для сортировки столбца по убыванию"
+                }
+            };
+
+            $('#example').dataTable({
+                "language": dataTableLanguage,
+                "Searchable": false
+
+            });
+    });
+  </script>
+<h1 style="text-align: center; font-size: 24px; color: #666666;">Идеи и предложения комнаты"{{ conference.titleconf}}"</h1>
+
+
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/kr1.png"%}  > - ожидание</p>
+
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/kr2.png"%} > - создан (опубликован и размещен в комнате)</p>
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/kr3.png"%}> - отклонено</p>
+
+<p style="font-size: 12px;"><img style="width: 11px;" src={% static "css/images/eye2.png"%}  >  - материал удален</p>
+
+
+
+ {% for message in messages %}
+<div style=" color: #5abd1c;font-size: 20px;text-align: center;font-weight: bold;" class="message {{ message.tags }}">
+    {{ message }}
+</div>
+{% endfor %}
+<div>
+{% if conference.conference_material_set.all.count == 0 %}
+    <p style="text-align: center;color: #aaaaaa;">Для комнаты "{{ conference.titleconf}}" нет материалов.</p>
+
+{% else %}
+        <table id="example">
+<thead>
+<tr>
+<td style="padding: 10px;"> </td>
+<td style="padding: 10px;">Заголовок</td>
+
+<td style="padding: 10px;">Автор</td>
+
+
+
+
+
+<td style="padding: 10px;">Редактирование</td>
+<td style="padding: 10px;">Статус материала</td>
+    <td>
+Удаление
+  </td>
+</tr>
+</thead>
+<tbody>
+{% for conf in conference.conference_material_set.all %}
+<tr style=" font-size: 12px; background: white;">
+
+<td style="padding: 10px; color:#aaaaaa;">
+{% if conf.otmenpublic == True %}
+{#<img style="width: 18px; " src={% static "css/images/eyet.png"%}  >#}
+{% endif %}
+{% if conf.otmenpublic == False %}
+<img style="width: 18px;" src={% static "css/images/eye2.png"%} >
+{% endif %}
+</td>
+<td style="padding: 10px; color:#aaaaaa;"><a style="color:rgba(0, 121, 178, 0.86); font-weight: bold;"  href="/ditailsmaterial/{{ conf.pk }}">{{ conf.titlematirial}}</a></td>
+
+<td style="padding: 10px; color:#aaaaaa;">{{ conf.authormatirial.last_name }} {{ conf.authormatirial.first_name }}
+  {% if conf.authormatirial.patronymic != None %}
+    {{ conf.authormatirial.patronymic }}
+ {% endif %}
+</td>
+
+<td> <a style=" margin-right: 22px; color: #f16300; font-weight: bold;" href="" onclick = "return confirm('Сайт и страница находится в разработке');" class="button661" title="Редактировать"></a></td>
+<td style="padding: 10px; color:#aaaaaa;">
+ {% if conf.status_id == 1 %}
+<img style="width: 22px; margin-left: 31px;" src={% static "css/images/kr1.png"%}  >
+{% endif %}
+{% if conf.status_id == 4 %}
+<img style="width: 22px; margin-left: 31px;" src={% static "css/images/kr2.png"%} >
+{% endif %}
+{% if conf.status_id == 3 %}
+<img style="width: 22px; margin-left: 31px;" src={% static "css/images/kr3.png"%}>
+{% endif %}
+</td>
+
+<td>
+<a style="color:#00887a; margin-left: 31px;" class="button00"  href="{% url 'udalenie_material' pk=conf.pk %}" title="Удаление" onclick = "return confirm('Вы уверены, что хотите удалить эту идею или предложение??');" ></a>
+</td>
+
+</tr>
+ {% endfor %}
+</tbody>
+</table>
+ {% endif %}
+ {% endblock content %}
+</div>

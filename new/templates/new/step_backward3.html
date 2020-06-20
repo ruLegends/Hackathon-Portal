@@ -1,0 +1,20 @@
+{% extends 'new/base.html' %}
+{% load staticfiles %}
+
+    {% block content %}
+
+
+     {% for material in materials %}
+ {% if forloop.first %}
+
+<h1 style="text-align: center; font-size: 24px; color: #666666;">Список материалов для конференции "{{ material.confer }}" из секции {{ material.section_name }}</h1>
+{% endif %}
+
+ {% endfor %}
+
+        <div class="post">
+
+        <p style="text-align: center;color: #aaaaaa;">Материалов в секции нет.</p>
+
+        </div>
+ {% endblock content %}

@@ -1,0 +1,115 @@
+{% extends 'new/base.html' %}
+
+    {% block content %}
+    {% load staticfiles %}
+
+
+<script>
+ $(document).ready(function () {
+
+});
+
+var show;
+function hidetxt(type){
+ param=document.getElementById(type);
+ if(param.style.display == "none") {
+ if(show) show.style.display = "none";
+ param.style.display = "block";
+ show = param;
+ }else param.style.display = "none"
+}
+</script>
+
+
+           <h1 style="text-align: center; font-size: 24px; color: #666666;">"{{ material.conference }}"</h1>
+         <form name="myForm" onsubmit="return validateForm()" action=""  method="POST" class="post-form">{% csrf_token %}
+        <div class="post">
+
+                <div>
+                    <p> <label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Заголовок:</label>&nbsp;&nbsp;{{ material.titlematirial }}</p>
+                </div>
+              
+         <div>
+            <p><label style="color:rgba(0, 121, 178, 0.86); font-weight: bold;">Комната:</label>&nbsp;&nbsp;{{ material.conference}}</p>
+        </div>
+       
+
+
+<div style="color: black; display:none;" id="div1">
+ {% if material.annotation_rus == None %}
+Нет аннотации
+{% else %}
+{{ material.annotation_rus }}
+{% endif %}
+</div>
+</div>
+<div>
+
+<div style="color: black; display:none;" id="div2">
+{% if material.annotation_usa == None %}
+Нет аннотации
+{% else %}
+{{ material.annotation_usa }}
+{% endif %}
+</div>
+</div>
+<div>
+
+<div style="color: black; display:none;" id="div3">
+
+{% if material.keywords_rus == None %}
+Нет ключевых слов
+{% else %}
+{{ material.keywords_rus }}
+{% endif %}
+</div>
+</div>
+<div>
+
+<div style=" color: black; display:none;" id="div4">
+
+{% if material.keywords_usa == None %}
+Нет ключевых слов
+{% else %}
+{{ material.keywords_usa }}
+{% endif %}
+</div>
+</div>
+</div>
+                <div>
+                 {% if material.otmenpublic == True %}
+                 <p><label style="color:rgba(0, 121, 178, 0.86); font-weight: bold; margin-left: 328px;"></label>&nbsp;&nbsp;</p>
+                {% endif %}
+                  <div style="    margin-left: 23%; margin-bottom: 20px;">
+{% if material.otmenpublic == False %}
+ <p style="color: #f27721; text-align: center; font-weight: bold;">Материал был удален.</p>
+{% else %}
+{% if '.pdf' in material.file_obj.name %}
+<iframe src="/media/{{ material.file_obj }}" width="800" height="900"></iframe>
+{% else %}
+<iframe src="/media/{{ material.file_obj|cut:'.docx' }}.pdf" width="800" height="900"></iframe>
+{% endif %}
+{% endif %}
+</div>
+                {% if material.otmenpublic == False %}
+
+                    {% else %}
+                     {%  if material.status_id == 1 %}
+
+{#                  <a style="    margin-left: 40%; margin-bottom: 20px;" href="/conference_new2/{{ material.pk }}" class="button4">Опубликовать</a>#}
+                   <input style="     margin-left: 40%; margin-bottom: 36px; " type="submit" class="button4" value="Опубликовать материал"/>
+{#                   <input style="     margin-left: 40%; margin-bottom: 36px; " type="submit" class="button4" value="Отклонить публикацию данного материала"/>#}
+                  <a style="    margin-left: 40%; margin-bottom: 36px;" href="/Twstper/{{ material.id }}" class="button4">Отклонить публикацию</a>
+                {% endif %}
+                 {%  if material.status_id == 4 %}
+                <a style="    margin-left: 40%; margin-bottom: 36px;" href="/otmen_public_material/{{ material.id }}" class="button4">Отменить публикацию</a>
+                {% endif %}
+                  {%  if material.status_id == 3 %}
+{#                 <a style="    margin-left: 40%; margin-bottom: 36px;" href="/conference_new2/{{ material.pk }}" class="button4">Опубликовать</a>#}
+                  <input style="    margin-left: 40%; margin-bottom: 36px; " type="submit" class="button4" value="Опубликовать материал"/>
+                {% endif %}
+                </div>
+{% endif %}
+        </div>
+</form>
+    {% endblock %}
